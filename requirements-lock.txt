@@ -1,4 +1,4 @@
-# Full pip freeze of the training/evaluation environment (conda env, Python 3.11.16, NVIDIA GB10, CUDA 13.0, Ubuntu aarch64)
+# Full pip freeze of the training/evaluation environment (conda env, Python 3.11.16, NVIDIA DGX Spark (GB10), CUDA 13.0, Ubuntu aarch64)
 accelerate==1.15.0
 annotated-doc==0.0.5
 anyio==4.15.1

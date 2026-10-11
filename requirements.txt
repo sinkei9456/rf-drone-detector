@@ -1,4 +1,4 @@
-# Training / evaluation environment: Python 3.11.16 (conda 25.9.1), NVIDIA GB10 (driver 580.126.09, CUDA 13.0), Ubuntu 24.04.4 aarch64
+# Training / evaluation environment: Python 3.11.16 (conda 25.9.1), NVIDIA DGX Spark (GB10, driver 580.126.09, CUDA 13.0), Ubuntu 24.04.4 aarch64
 # 1) conda create -n rfdd python=3.11.16 -y && conda activate rfdd
 # 2) torch with CUDA 13.0 wheels: pip install torch==2.14.0 torchvision==0.29.0 --index-url https://download.pytorch.org/whl/cu130
 #    (other GPUs: the torch 2.14.0 wheel that matches your CUDA)
