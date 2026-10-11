@@ -75,7 +75,7 @@ Limits of these numbers:
 
 ## Reproduction check
 
-The whole pipeline was re-run with `scripts/reproduce.sh` on 2026-10-11 in a fresh copy of this repository (one NVIDIA GB10, environment of `requirements-lock.txt`), with the HackRF recordings taken from the release files and only the public-data subsets listed under "Data". Every intermediate file was compared byte by byte with the files used for the released model.
+The whole pipeline was re-run with `scripts/reproduce.sh` on 2026-10-11 in a fresh copy of this repository, on one NVIDIA GB10 in the original analysis environment (not a newly built one; its full package list is `requirements-lock.txt`), with the HackRF recordings taken from the release files and only the public-data subsets listed under "Data". Every intermediate file was compared byte by byte with the files used for the released model.
 
 | Step | Result |
 |---|---|
@@ -139,7 +139,23 @@ On a Raspberry Pi use a 64-bit OS (torch has no 32-bit ARM wheel). On our ARM se
 
 ## Reproduce the model
 
-1. **Environment.** See `requirements.txt` (Python 3.11.16, torch 2.14.0, ultralytics 8.4.157). Put the COCO-pretrained `yolo26s.pt` from the release into `src/` (the exact file used; SHA-256 `646f8bc3…`).
+1. **Environment.** The analysis environment (training, synthesis, evaluation) was:
+
+   | Item | Version |
+   |---|---|
+   | OS, CPU | Ubuntu 24.04.4 LTS, aarch64 (ARM 64-bit) |
+   | GPU | NVIDIA GB10, driver 580.126.09, CUDA 13.0 |
+   | Environment manager | conda 25.9.1, environment with Python 3.11.16 |
+   | Main packages | torch 2.14.0 (CUDA 13.0 wheel), torchvision 0.29.0, ultralytics 8.4.157, numpy 2.4.6, scipy 1.17.1, pandas 3.0.6, pillow 12.3.0, h5py 3.16.0, matplotlib 3.11.2 |
+   | Full list | `requirements-lock.txt` (pip freeze of that environment) |
+
+   ```bash
+   conda create -n rfdd python=3.11.16 -y && conda activate rfdd
+   pip install torch==2.14.0 torchvision==0.29.0 --index-url https://download.pytorch.org/whl/cu130   # other GPUs: the torch 2.14.0 wheel for your CUDA
+   pip install -r requirements.txt
+   ```
+
+   The reproduction check above was run in the original analysis environment; an environment built from these files has the same versions but was not separately re-run. Put the COCO-pretrained `yolo26s.pt` from the release into `src/` (the exact file used; SHA-256 `646f8bc3…`).
 2. **Data** into `data/raw/` (about 150 GB of public data + 5.6 GB of our recordings, see below).
 3. **Run** `bash scripts/reproduce.sh` from the repository root. Steps write logs to `runs/logs/`; finished steps are skipped when it is run again. Training takes about 1 hour on one NVIDIA GB10.
 

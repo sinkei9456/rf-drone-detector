@@ -75,7 +75,7 @@ D4D x EDTH 해커톤 2026, 과제 T1-3 "수도권 영공 소형드론·풍선 �
 
 ## 재현 확인
 
-2026-10-11 에 이 저장소의 새 복사본에서 `scripts/reproduce.sh` 로 전체 과정을 다시 돌렸다(NVIDIA GB10 한 장, `requirements-lock.txt` 환경). HackRF 녹음은 릴리스 파일에서 풀었고, 공개 데이터는 "데이터"에 적은 부분만 썼다. 중간 파일을 모두 공개한 모델을 만들 때의 파일과 바이트 단위로 비교했다.
+2026-10-11 에 이 저장소의 새 복사본에서 `scripts/reproduce.sh` 로 전체 과정을 다시 돌렸다(NVIDIA GB10 한 장, 새로 만든 환경이 아니라 원래 분석에 쓴 가상환경 그대로이며 그 전체 패키지 목록이 `requirements-lock.txt`). HackRF 녹음은 릴리스 파일에서 풀었고, 공개 데이터는 "데이터"에 적은 부분만 썼다. 중간 파일을 모두 공개한 모델을 만들 때의 파일과 바이트 단위로 비교했다.
 
 | 단계 | 결과 |
 |---|---|
@@ -139,7 +139,23 @@ python src/predict.py --images work/images --model models/model_02a.pt --device 
 
 ## 모델 재현하기
 
-1. **환경.** `requirements.txt` 를 본다(Python 3.11.16, torch 2.14.0, ultralytics 8.4.157). 릴리스의 COCO 사전학습 `yolo26s.pt` 를 `src/` 에 넣는다(학습에 쓴 바로 그 파일, SHA-256 `646f8bc3…`).
+1. **환경.** 분석(학습·합성·평가)에 쓴 환경은 다음과 같다.
+
+   | 항목 | 버전 |
+   |---|---|
+   | OS, CPU | Ubuntu 24.04.4 LTS, aarch64 (ARM 64비트) |
+   | GPU | NVIDIA GB10, 드라이버 580.126.09, CUDA 13.0 |
+   | 환경 관리 | conda 25.9.1, Python 3.11.16 가상환경 |
+   | 주요 패키지 | torch 2.14.0 (CUDA 13.0 휠), torchvision 0.29.0, ultralytics 8.4.157, numpy 2.4.6, scipy 1.17.1, pandas 3.0.6, pillow 12.3.0, h5py 3.16.0, matplotlib 3.11.2 |
+   | 전체 목록 | `requirements-lock.txt` (그 환경의 pip freeze) |
+
+   ```bash
+   conda create -n rfdd python=3.11.16 -y && conda activate rfdd
+   pip install torch==2.14.0 torchvision==0.29.0 --index-url https://download.pytorch.org/whl/cu130   # 다른 GPU: 그 CUDA 에 맞는 torch 2.14.0 휠
+   pip install -r requirements.txt
+   ```
+
+   위 "재현 확인"은 원래 분석 환경에서 돌린 것이다. 이 파일들로 새로 만든 환경은 버전이 같지만 따로 다시 돌려 보지는 않았다. 릴리스의 COCO 사전학습 `yolo26s.pt` 를 `src/` 에 넣는다(학습에 쓴 바로 그 파일, SHA-256 `646f8bc3…`).
 2. **데이터**를 `data/raw/` 에 넣는다(공개 데이터 약 150 GB + 우리 녹음 5.6 GB, 아래 표).
 3. 저장소 맨 위에서 `bash scripts/reproduce.sh` 를 **실행**한다. 단계마다 `runs/logs/` 에 기록이 남고, 다시 실행하면 끝난 단계는 건너뛴다. 학습은 NVIDIA GB10 한 장에서 약 1시간 걸린다.
 
