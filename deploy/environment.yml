@@ -1,0 +1,19 @@
+# D4D 드론 탐지 모델 실행 환경 — 라즈베리 파이(64비트 OS 필수, aarch64)·일반 리눅스 PC 공통, CPU 추론용.
+# 만들기: conda env create -f environment.yml      켜기: conda activate d4d_detector
+# torch 는 CPU 전용 휠(download.pytorch.org/whl/cpu)을 받는다. 32비트 OS 에는 torch 가 없어 설치되지 않는다.
+# 버전은 모델을 학습·평가한 서버와 같게 고정했다(그림 만들기 결과가 같아야 하므로 numpy·scipy·pillow 도 고정).
+name: d4d_detector
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cpu
+      - torch==2.14.0
+      - torchvision==0.29.0
+      - ultralytics==8.4.157
+      - numpy==2.4.6
+      - scipy==1.17.1
+      - pillow==12.3.0
+      - pandas==3.0.6

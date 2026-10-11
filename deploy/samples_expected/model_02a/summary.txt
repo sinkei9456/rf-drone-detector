@@ -1,0 +1,25 @@
+모델 models/model_02a.pt, 신뢰도 0.25, 장치 cpu, 그림 40장, 16.4 초(그림 한 장 409 ms)
+
+원본(녹음 또는 그림 폴더)마다 '드론 있음' 그림 수 / 전체 그림 수:
+  antenna_connected_no_drone_01_2450000000Hz_20000000sps_1s.cs8: 0 / 1
+  antenna_connected_no_drone_02_2450000000Hz_20000000sps_1s.cs8: 0 / 1
+  antenna_connected_no_drone_03_2450000000Hz_20000000sps_1s.cs8: 0 / 1
+  antenna_connected_no_drone_04_2450000000Hz_20000000sps_1s.cs8: 0 / 1
+  antenna_connected_no_drone_05_2450000000Hz_20000000sps_1s.cs8: 0 / 1
+  antenna_disconnected_04_2450000000Hz_20000000sps_1s.cs8: 0 / 3
+  antenna_disconnected_05_2450000000Hz_20000000sps_1s.cs8: 0 / 2
+  DRFF-R2 indoor_environment (test): 0 / 1
+  DRFF-R2 mavic3C_1_c6 (test): 7 / 9
+  synthetic test (HackRF 2.45 GHz background): 6 / 10
+  20261008T121910Z_wifi_altitude_30m_01_3f086fbc: 1 / 1
+  20261008T121923Z_wifi_altitude_30m_02_68f7e6cd: 1 / 1
+  20261008T124209Z_wifi_freeflight_01_de0f377e: 1 / 1
+  20261008T124225Z_wifi_freeflight_02_b479c51f: 1 / 1
+  neo2_o4_off_01_2450500000Hz_20000000sps_1s.cs8: 0 / 1
+  neo2_o4_off_02_2450500000Hz_20000000sps_1s.cs8: 0 / 1
+  neo2_o4_on_01_2450500000Hz_20000000sps_1s.cs8: 1 / 1
+  neo2_o4_on_02_2450500000Hz_20000000sps_1s.cs8: 1 / 1
+  neo2_o4_on_03_2450500000Hz_20000000sps_1s.cs8: 1 / 1
+  neo2_o4_on_04_2450500000Hz_20000000sps_1s.cs8: 1 / 1
+
+전체: 21 / 40

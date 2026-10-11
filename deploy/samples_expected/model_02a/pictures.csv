@@ -1,0 +1,41 @@
+image,source,frame,n_drone,n_wifi,n_bt,max_drone_conf,drone
+test1_hackrf/images/antenna_connected_no_drone_01_2450000000Hz_20000000sps_1s_f00.png,antenna_connected_no_drone_01_2450000000Hz_20000000sps_1s.cs8,0,0,0,0,0.0,no
+test1_hackrf/images/antenna_connected_no_drone_02_2450000000Hz_20000000sps_1s_f00.png,antenna_connected_no_drone_02_2450000000Hz_20000000sps_1s.cs8,0,0,0,0,0.0,no
+test1_hackrf/images/antenna_connected_no_drone_03_2450000000Hz_20000000sps_1s_f00.png,antenna_connected_no_drone_03_2450000000Hz_20000000sps_1s.cs8,0,0,0,0,0.0,no
+test1_hackrf/images/antenna_connected_no_drone_04_2450000000Hz_20000000sps_1s_f00.png,antenna_connected_no_drone_04_2450000000Hz_20000000sps_1s.cs8,0,0,0,0,0.0,no
+test1_hackrf/images/antenna_connected_no_drone_05_2450000000Hz_20000000sps_1s_f00.png,antenna_connected_no_drone_05_2450000000Hz_20000000sps_1s.cs8,0,0,0,0,0.0,no
+test1_hackrf/images/antenna_disconnected_04_2450000000Hz_20000000sps_1s_f00.png,antenna_disconnected_04_2450000000Hz_20000000sps_1s.cs8,0,0,0,0,0.0,no
+test1_hackrf/images/antenna_disconnected_04_2450000000Hz_20000000sps_1s_f10.png,antenna_disconnected_04_2450000000Hz_20000000sps_1s.cs8,10,0,0,0,0.0,no
+test1_hackrf/images/antenna_disconnected_04_2450000000Hz_20000000sps_1s_f20.png,antenna_disconnected_04_2450000000Hz_20000000sps_1s.cs8,20,0,0,0,0.0,no
+test1_hackrf/images/antenna_disconnected_05_2450000000Hz_20000000sps_1s_f00.png,antenna_disconnected_05_2450000000Hz_20000000sps_1s.cs8,0,0,0,0,0.0,no
+test1_hackrf/images/antenna_disconnected_05_2450000000Hz_20000000sps_1s_f10.png,antenna_disconnected_05_2450000000Hz_20000000sps_1s.cs8,10,0,0,0,0.0,no
+test2_drff_r2/images/drff8_indoor_environment_nodrone_24100_w0.png,DRFF-R2 indoor_environment (test),0,0,0,0,0.0,no
+test2_drff_r2/images/drff8_mavic3C_1_c6_nodrone_24100_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,0,0,0,0.0,no
+test2_drff_r2/images/drff8_mavic3C_1_c6_nodrone_24300_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,0,0,0,0.0,no
+test2_drff_r2/images/drff8_mavic3C_1_c6_v100_24526_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,1,0,0,0.9477,yes
+test2_drff_r2/images/drff8_mavic3C_1_c6_v30_24390_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,1,0,0,0.5091,yes
+test2_drff_r2/images/drff8_mavic3C_1_c6_v50_24626_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,3,0,0,0.9605,yes
+test2_drff_r2/images/drff8_mavic3C_1_c6_v60_24444_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,2,0,0,0.9369,yes
+test2_drff_r2/images/drff8_mavic3C_1_c6_v70_24590_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,2,0,0,0.934,yes
+test2_drff_r2/images/drff8_mavic3C_1_c6_v80_24481_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,2,0,0,0.95,yes
+test2_drff_r2/images/drff8_mavic3C_1_c6_v90_24554_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,1,0,0,0.9339,yes
+test3_synthetic/images/test_00000.png,synthetic test (HackRF 2.45 GHz background),0,1,1,20,0.9389,yes
+test3_synthetic/images/test_00001.png,synthetic test (HackRF 2.45 GHz background),0,1,2,12,0.9446,yes
+test3_synthetic/images/test_00002.png,synthetic test (HackRF 2.45 GHz background),0,1,2,19,0.969,yes
+test3_synthetic/images/test_00003.png,synthetic test (HackRF 2.45 GHz background),0,1,0,1,0.9569,yes
+test3_synthetic/images/test_00004.png,synthetic test (HackRF 2.45 GHz background),0,1,2,22,0.8617,yes
+test3_synthetic/images/test_00005.png,synthetic test (HackRF 2.45 GHz background),0,0,3,0,0.0,no
+test3_synthetic/images/test_00006.png,synthetic test (HackRF 2.45 GHz background),0,0,6,0,0.0,no
+test3_synthetic/images/test_00009.png,synthetic test (HackRF 2.45 GHz background),0,1,1,23,0.9314,yes
+test3_synthetic/images/test_00010.png,synthetic test (HackRF 2.45 GHz background),0,0,3,1,0.0,no
+test3_synthetic/images/test_00013.png,synthetic test (HackRF 2.45 GHz background),0,0,0,0,0.0,no
+test4_neo2/images/20261008T121910Z_wifi_altitude_30m_01_3f086fbc_f239.png,20261008T121910Z_wifi_altitude_30m_01_3f086fbc,239,1,0,0,0.9246,yes
+test4_neo2/images/20261008T121923Z_wifi_altitude_30m_02_68f7e6cd_f167.png,20261008T121923Z_wifi_altitude_30m_02_68f7e6cd,167,1,0,0,0.9461,yes
+test4_neo2/images/20261008T124209Z_wifi_freeflight_01_de0f377e_f124.png,20261008T124209Z_wifi_freeflight_01_de0f377e,124,1,0,0,0.9627,yes
+test4_neo2/images/20261008T124225Z_wifi_freeflight_02_b479c51f_f131.png,20261008T124225Z_wifi_freeflight_02_b479c51f,131,1,0,0,0.9627,yes
+test4_neo2/images/neo2_o4_off_01_2450500000Hz_20000000sps_1s_f25.png,neo2_o4_off_01_2450500000Hz_20000000sps_1s.cs8,25,0,0,0,0.0,no
+test4_neo2/images/neo2_o4_off_02_2450500000Hz_20000000sps_1s_f25.png,neo2_o4_off_02_2450500000Hz_20000000sps_1s.cs8,25,0,0,0,0.0,no
+test4_neo2/images/neo2_o4_on_01_2450500000Hz_20000000sps_1s_f25.png,neo2_o4_on_01_2450500000Hz_20000000sps_1s.cs8,25,2,0,0,0.9287,yes
+test4_neo2/images/neo2_o4_on_02_2450500000Hz_20000000sps_1s_f25.png,neo2_o4_on_02_2450500000Hz_20000000sps_1s.cs8,25,2,0,0,0.9593,yes
+test4_neo2/images/neo2_o4_on_03_2450500000Hz_20000000sps_1s_f25.png,neo2_o4_on_03_2450500000Hz_20000000sps_1s.cs8,25,1,0,0,0.8416,yes
+test4_neo2/images/neo2_o4_on_04_2450500000Hz_20000000sps_1s_f25.png,neo2_o4_on_04_2450500000Hz_20000000sps_1s.cs8,25,1,0,0,0.9031,yes

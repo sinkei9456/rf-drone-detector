@@ -1,0 +1,18 @@
+# Raw recordings and everything rebuilt from them (see README "Data")
+data/raw/
+data/derived/
+data/yaml/
+# Run outputs (logs, pieces, trained weights, test results). Human-reviewed DRFF-R2 bands are kept in data/labels/
+runs/*
+# Check figures written by some steps
+doc/
+# Ultralytics COCO-pretrained weights: download from the GitHub release (exact file used for training)
+src/yolo26s.pt
+# Ultralytics downloads yolo26n.pt here for its mixed-precision (AMP) check at the start of training
+src/weights/
+# Deployment work folders
+deploy/work/
+deploy/output/
+deploy/input/
+__pycache__/
+*.pyc

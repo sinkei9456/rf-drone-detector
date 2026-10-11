@@ -1,0 +1,11 @@
+image,source,frame,t_start_ms,t_end_ms,fc_hz,fs_hz
+images/drff8_mavic3C_1_c6_v100_24526_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,0,20,2452620000,20000000
+images/drff8_mavic3C_1_c6_v90_24554_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,0,20,2455360000,20000000
+images/drff8_mavic3C_1_c6_v80_24481_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,0,20,2448070000,20000000
+images/drff8_mavic3C_1_c6_v70_24590_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,0,20,2458990000,20000000
+images/drff8_mavic3C_1_c6_v60_24444_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,0,20,2444440000,20000000
+images/drff8_mavic3C_1_c6_v50_24626_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,0,20,2462630000,20000000
+images/drff8_mavic3C_1_c6_v30_24390_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,0,20,2438990000,20000000
+images/drff8_mavic3C_1_c6_nodrone_24100_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,0,20,2410000000,20000000
+images/drff8_mavic3C_1_c6_nodrone_24300_w0.png,DRFF-R2 mavic3C_1_c6 (test),0,0,20,2430000000,20000000
+images/drff8_indoor_environment_nodrone_24100_w0.png,DRFF-R2 indoor_environment (test),0,0,20,2410000000,20000000
