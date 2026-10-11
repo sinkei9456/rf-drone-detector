@@ -75,8 +75,21 @@ D4D x EDTH 해커톤 2026, 과제 T1-3 "수도권 영공 소형드론·풍선 �
 
 ## 재현 확인
 
-<!-- REPRO_RESULTS_KO -->
-*작성 중: 이 저장소의 새 복사본에서 원본 녹음부터 전체 과정(scripts/reproduce.sh)을 다시 돌리고 있다.*
+2026-10-11 에 이 저장소의 새 복사본에서 `scripts/reproduce.sh` 로 전체 과정을 다시 돌렸다(NVIDIA GB10 한 장, `requirements-lock.txt` 환경). HackRF 녹음은 릴리스 파일에서 풀었고, 공개 데이터는 "데이터"에 적은 부분만 썼다. 중간 파일을 모두 공개한 모델을 만들 때의 파일과 바이트 단위로 비교했다.
+
+| 단계 | 결과 |
+|---|---|
+| HackRF 바탕, 드론 조각(공개 데이터 303개, Neo 2 1,643개), Neo 2 그림과 자동 레이블 | 같음 |
+| 합성 그림 v8 (7,600장)과 테스트 2 그림 (1,840장), 정답 포함 | 같음 |
+| 실제 "드론 아님" 그림 (1,950장)과 학습용 합성 그림 v10 (6,600장), 정답 포함 | 같음 |
+| 모델 2a 학습: 40회차 모두의 손실·검증 값 | 같음 |
+| 학습한 가중치 (708개) | 같음(가장 큰 차이 0.0). `.pt` 파일은 날짜·폴더 같은 기록만 다름 |
+| 재현한 모델과 공개한 모델의 테스트 1–4 | "결과"의 숫자와 같음(테스트 4 는 그림 한 장 한 장까지) |
+
+- 시간: 약 1.5시간(그중 학습 54분). 디스크: 원본 데이터 155 GB, 과정에서 만드는 파일 13 GB.
+- 다시 계산하지 않는 입력이 하나 있다: DRFF-R2 자동 대역 후보. 지금의 `drff_prep.py scan` 은 사람이 대역을 확인할 때와 비교해 73개 중 14개 파일에서 후보가 조금 다르게 나온다. 그래서 `scripts/reproduce.sh` 는 확인을 거친 후보(`data/labels/drff_scan_reviewed/`)를 쓴다(훑기로 계산한 파일별 신호 배열은 같았다).
+- 숫자가 똑같이 나오려면 같은 소프트웨어 판과 같은 종류의 GPU 가 필요하다. 다른 장비에서는 아주 작은 차이가 날 수 있다.
+- 학습을 시작할 때 Ultralytics 가 혼합 정밀도 확인용 `yolo26n.pt` 를 내려받으므로, 학습 장비는 인터넷에 연결되어 있어야 한다.
 
 ## 저장소 구성
 
@@ -140,7 +153,7 @@ git 저장소에는 데이터가 없다.
 | `data/raw/tampere/` | Tampere 대학 드론 RF 녹음 | `*_2G*.bin` 12개 | 5.4 GB | Zenodo, doi:10.5281/zenodo.4264467 (라이선스는 그 페이지 참고) |
 | `data/raw/dronedetect/DroneDetect_V2/CLEAN/` | DroneDetect V2 (Swinney, Woods) | `CLEAN` 폴더 | 85 GB | IEEE DataPort (이용 조건은 그 페이지 참고) |
 | `data/raw/rfuav/` | RFUAV | `DJI MINI3/`, `DJI MINI4 PRO/` 폴더 | 12.5 GB | RFUAV 벤치마크 데이터셋 (이용 조건은 그 페이지 참고) |
-| `data/raw/hackrf/` | 우리 HackRF One 녹음 (2.45 GHz, 20 MS/s) | 전부 | 5.6 GB | 깃헙 릴리스의 tar 5개, 저장소 맨 위에서 풀기 |
+| `data/raw/hackrf/` | 우리 HackRF One 녹음 (2.45 GHz, 20 MS/s) | 전부 | 5.6 GB | 깃헙 릴리스의 tar 5개, 저장소 맨 위에서 풀기. CC BY 4.0 |
 
 HackRF 릴리스 묶음(저장소 맨 위에서 `tar xf <파일>`, 체크섬은 `SHA256SUMS_hackrf.txt`):
 
@@ -156,4 +169,6 @@ HackRF 릴리스 묶음(저장소 맨 위에서 `tar xf <파일>`, 체크섬은 
 
 ## 라이선스
 
-AGPL-3.0(`LICENSE`). Ultralytics YOLO(AGPL-3.0)를 쓰고, 모델을 Ultralytics 가중치에서 파인튜닝했기 때문이다. 공개 데이터는 각자의 라이선스를 따르며 여기서 다시 배포하지 않는다.
+코드와 모델: AGPL-3.0(`LICENSE`). Ultralytics YOLO(AGPL-3.0)를 쓰고, 모델을 Ultralytics 가중치에서 파인튜닝했기 때문이다.
+우리 HackRF 녹음(릴리스 파일 `hackrf_*.tar`): CC BY 4.0(https://creativecommons.org/licenses/by/4.0/). 쓸 때는 이 저장소를 출처로 밝힌다.
+공개 데이터는 각자의 라이선스를 따르며 여기서 다시 배포하지 않는다.

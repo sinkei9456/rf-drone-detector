@@ -75,8 +75,21 @@ Limits of these numbers:
 
 ## Reproduction check
 
-<!-- REPRO_RESULTS -->
-*Being filled in: the full pipeline (scripts/reproduce.sh) is being re-run from the raw recordings in a fresh copy of this repository.*
+The whole pipeline was re-run with `scripts/reproduce.sh` on 2026-10-11 in a fresh copy of this repository (one NVIDIA GB10, environment of `requirements-lock.txt`), with the HackRF recordings taken from the release files and only the public-data subsets listed under "Data". Every intermediate file was compared byte by byte with the files used for the released model.
+
+| Step | Result |
+|---|---|
+| HackRF backgrounds, drone pieces (303 from public data, 1,643 Neo 2), Neo 2 pictures and automatic labels | identical |
+| Synthetic pictures v8 (7,600) and test 2 pictures (1,840), with labels | identical |
+| Real "no drone" pictures (1,950) and synthetic training pictures v10 (6,600), with labels | identical |
+| Training of model 2a: losses and validation values of all 40 epochs | identical |
+| Trained weights (708 tensors) | identical (largest difference 0.0); the `.pt` file differs only in metadata such as date and folder |
+| Tests 1–4 of the reproduced model and of the released model | identical to the numbers in "Results" (test 4 also picture by picture) |
+
+- Time: about 1.5 hours, of which training is 54 minutes. Disk: 155 GB of raw data, 13 GB of files made by the pipeline.
+- One input is not recomputed: the automatic DRFF-R2 band candidates. The current `drff_prep.py scan` gives slightly different candidates for 14 of 73 files than when the bands were reviewed by a person, so `scripts/reproduce.sh` uses the reviewed candidates in `data/labels/drff_scan_reviewed/` (the per-file signal arrays computed by the scan were identical).
+- Identical numbers need the same software versions and GPU type; on other hardware small numerical differences are expected.
+- At the start of training Ultralytics downloads `yolo26n.pt` for its mixed-precision check, so the training machine needs internet access.
 
 ## Repository layout
 
@@ -140,7 +153,7 @@ No data is stored in the git repository.
 | `data/raw/tampere/` | Tampere University drone RF recordings | the 12 files `*_2G*.bin` | 5.4 GB | Zenodo, doi:10.5281/zenodo.4264467 (see the record for its license) |
 | `data/raw/dronedetect/DroneDetect_V2/CLEAN/` | DroneDetect V2 (Swinney and Woods) | the `CLEAN` folder | 85 GB | IEEE DataPort (see the dataset page for its terms) |
 | `data/raw/rfuav/` | RFUAV | folders `DJI MINI3/` and `DJI MINI4 PRO/` | 12.5 GB | RFUAV benchmark dataset (see its page for its terms) |
-| `data/raw/hackrf/` | Our HackRF One recordings (2.45 GHz, 20 MS/s) | all | 5.6 GB | GitHub release, 5 tar files, extract at the repository root |
+| `data/raw/hackrf/` | Our HackRF One recordings (2.45 GHz, 20 MS/s) | all | 5.6 GB | GitHub release, 5 tar files, extract at the repository root. CC BY 4.0 |
 
 HackRF release bundles (extract with `tar xf <file>` at the repository root; checksums in `SHA256SUMS_hackrf.txt`):
 
@@ -156,4 +169,6 @@ Only the IQ files and the metadata read by the code are included; the HackRF dev
 
 ## License
 
-AGPL-3.0 (`LICENSE`), because the code uses Ultralytics YOLO (AGPL-3.0) and the model is fine-tuned from Ultralytics weights. The public datasets keep their own licenses and are not redistributed here.
+Code and model: AGPL-3.0 (`LICENSE`), because the code uses Ultralytics YOLO (AGPL-3.0) and the model is fine-tuned from Ultralytics weights.
+Our HackRF recordings (release files `hackrf_*.tar`): CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); please cite this repository.
+The public datasets keep their own licenses and are not redistributed here.
