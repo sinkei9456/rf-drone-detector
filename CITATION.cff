@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "RF Drone Detector: passive RF drone detection with a YOLO detector trained on IQ-level synthetic spectrograms"
+authors:
+  - family-names: Kim
+    given-names: Jeonghwan
+    affiliation: Independent researcher
+repository-code: "https://github.com/sinkei9456/rf-drone-detector"
+license: AGPL-3.0
+version: 1.1.0
+date-released: 2026-10-26
+keywords:
+  - drone detection
+  - counter-UAS
+  - RF signal detection
+  - software-defined radio
+  - HackRF
+  - spectrogram
+  - synthetic training data
+  - YOLO
+abstract: >-
+  A HackRF One listens to 20 MHz of the 2.4 GHz band. Every 20 ms of IQ samples
+  becomes a 640 x 640 spectrogram, and a YOLO26s detector, fine-tuned from COCO
+  object-detection weights, draws boxes around drone video links, Wi-Fi and
+  Bluetooth, giving the time and frequency of each drone signal. Training
+  pictures are synthesized at the IQ level: pieces of real drone signals are
+  added to real HackRF background noise, with crowded Wi-Fi and Bluetooth, drone
+  signals weakened to the level measured at 30 m altitude, and signals cut by
+  the 20 MHz receiver window. On real recordings never used for training, the
+  released model found a DJI Neo 2 in 249 of 250 indoor pictures and in 350 of
+  351 pictures at 30 m altitude where the signal is visible, and drew a drone
+  box on 6 of 1,040 pictures without a drone. Re-running the full pipeline from
+  the raw recordings in the original analysis environment gives the released
+  weights exactly.
