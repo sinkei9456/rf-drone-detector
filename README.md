@@ -1,5 +1,7 @@
 # RF Drone Detector
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23656790.svg)](https://doi.org/10.5281/zenodo.23656790)
+
 English | [한국어](README.ko.md)
 
 **Passive RF drone detection: a YOLO detector that finds drone video links in 20 ms spectrograms from a HackRF One, trained mostly on IQ-level synthetic pictures**
@@ -183,6 +185,10 @@ HackRF release bundles (extract with `tar xf <file>` at the repository root; che
 | `hackrf_5_test_park_b.tar` | park sessions 08, 11, 12 (about 50 m), 13 (free flight) | test 4 |
 
 Only the IQ files and the metadata read by the code are included; the HackRF device serial number is replaced by `REDACTED` (`scripts/make_hackrf_bundles.py`).
+
+## Citation
+
+This repository (all versions): Kim, Jeonghwan. RF Drone Detector: passive RF drone detection with a YOLO detector trained on IQ-level synthetic spectrograms. Zenodo. https://doi.org/10.5281/zenodo.23656790 (this release v1.1: https://doi.org/10.5281/zenodo.23656791). A `CITATION.cff` file is included.
 
 ## License
 

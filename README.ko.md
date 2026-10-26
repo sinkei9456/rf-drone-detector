@@ -1,5 +1,7 @@
 # RF 드론 탐지기
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23656790.svg)](https://doi.org/10.5281/zenodo.23656790)
+
 [English](README.md) | 한국어
 
 **수동형 RF 드론 탐지: HackRF One 의 20 ms 스펙트로그램에서 드론 영상 신호를 찾는 YOLO 검출 모델, IQ 단계 합성 그림 위주로 학습**
@@ -183,6 +185,10 @@ HackRF 릴리스 묶음(저장소 맨 위에서 `tar xf <파일>`, 체크섬은 
 | `hackrf_5_test_park_b.tar` | 공원 08, 11, 12(약 50 m), 13(자유비행) | 테스트 4 |
 
 코드가 읽는 IQ 파일과 메타데이터만 넣었고, HackRF 기기 일련번호는 `REDACTED` 로 바꿨다(`scripts/make_hackrf_bundles.py`).
+
+## 인용
+
+이 저장소(모든 버전): Kim, Jeonghwan. RF Drone Detector: passive RF drone detection with a YOLO detector trained on IQ-level synthetic spectrograms. Zenodo. https://doi.org/10.5281/zenodo.23656790 (이번 버전 v1.1: https://doi.org/10.5281/zenodo.23656791). 인용 정보 파일 `CITATION.cff`가 들어 있다.
 
 ## 라이선스
 
