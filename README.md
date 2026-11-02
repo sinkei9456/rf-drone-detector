@@ -39,7 +39,7 @@ Situations put into the training pictures on purpose:
 | Real "no drone" pictures | 1,720 | 230 |
 | Total | 7,720 | 830 |
 
-- Drone pieces: 303 from public data (DRFF-R2, Tampere, DroneDetect, RFUAV; 158 train, 51 validation, 94 test-only) and 1,643 DJI Neo 2 pieces from our park recordings (1,205 train, 438 validation).
+- Drone pieces: 303 from public data (DRFF-R2, Tampere, DroneDetect, RFUAV; 158 train, 51 validation, 94 test-only) and 1,703 DJI Neo 2 pieces from our park recordings (1,205 train, 498 validation).
 - Backgrounds: half indoor HackRF noise (antenna removed, Bluetooth bursts erased), half park recording with drone off.
 - Synthetic training pictures: 3,558 with a drone (552 with two), 1,512 with only Wi-Fi/Bluetooth, 930 background only.
 
@@ -81,7 +81,7 @@ The whole pipeline was re-run with `scripts/reproduce.sh` on 2026-10-11 in a fre
 
 | Step | Result |
 |---|---|
-| HackRF backgrounds, drone pieces (303 from public data, 1,643 Neo 2), Neo 2 pictures and automatic labels | identical |
+| HackRF backgrounds, drone pieces (303 from public data; 1,773 Neo 2 cut, 1,703 of them used), Neo 2 pictures and automatic labels | identical |
 | Synthetic pictures v8 (7,600) and test 2 pictures (1,840), with labels | identical |
 | Real "no drone" pictures (1,950) and synthetic training pictures v10 (6,600), with labels | identical |
 | Training of model 2a: losses and validation values of all 40 epochs | identical |
