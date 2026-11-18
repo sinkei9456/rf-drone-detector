@@ -1,0 +1,28 @@
+실험 2 누출 점검 (paper/src/rev1_exp2.py build)
+
+test2_1 train: IQ 파일 12개, 묶음 ['T_off_quiet', 'T_off_unrec']
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/한산한_객실/2026-11-14_14-44-00_off_92a3f00b/20261114T054401Z_neo2_off_01_818945bc/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/한산한_객실/2026-11-14_14-44-00_off_92a3f00b/20261114T054415Z_neo2_off_02_da7095d8/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/한산한_객실/2026-11-14_14-44-40_off_4e17520b/20261114T054440Z_neo2_off_01_aad9b2ac/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/한산한_객실/2026-11-14_14-44-40_off_4e17520b/20261114T054454Z_neo2_off_02_e6a04e34/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/한산한_객실/2026-11-14_14-45-29_off_78e61a8b/20261114T054529Z_neo2_off_01_1bceded9/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/한산한_객실/2026-11-14_14-45-29_off_78e61a8b/20261114T054543Z_neo2_off_02_2d259f3f/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/혼잡도_미기록/2026-11-14_14-36-14_off_cd2179b5/20261114T053614Z_neo2_off_01_1850215b/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/혼잡도_미기록/2026-11-14_14-36-14_off_cd2179b5/20261114T053628Z_neo2_off_02_94537a2b/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/혼잡도_미기록/2026-11-14_14-38-19_off_6c600fdb/20261114T053819Z_neo2_off_01_88e07781/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/혼잡도_미기록/2026-11-14_14-38-19_off_6c600fdb/20261114T053833Z_neo2_off_02_8c231fac/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/혼잡도_미기록/2026-11-14_14-38-54_off_1b64a5d0/20261114T053855Z_neo2_off_01_bbf80d09/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/혼잡도_미기록/2026-11-14_14-38-54_off_1b64a5d0/20261114T053909Z_neo2_off_02_09342a18/iq.sigmf-data
+test2_1 val: IQ 파일 4개, 묶음 ['T_off_quiet', 'T_off_unrec']
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/한산한_객실/2026-11-14_14-46-50_off_01b49f21/20261114T054651Z_neo2_off_01_7f181430/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/한산한_객실/2026-11-14_14-46-50_off_01b49f21/20261114T054705Z_neo2_off_02_2d0430c2/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/혼잡도_미기록/2026-11-14_14-39-48_off_d1ec76b6/20261114T053949Z_neo2_off_01_e740e221/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/02_열차_객실/드론_꺼짐/혼잡도_미기록/2026-11-14_14-39-48_off_d1ec76b6/20261114T054002Z_neo2_off_02_e9f83355/iq.sigmf-data
+test2_2 train: IQ 파일 2개, 묶음 ['S_off_before']
+  data/raw/hackrf/4_neo2_crowded_20261114/01_수원역_플랫폼/드론_꺼짐/20261114T042331Z_neo2_off_01_f060d2ba/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/01_수원역_플랫폼/드론_꺼짐/20261114T042339Z_neo2_off_02_556b02a9/iq.sigmf-data
+test2_2 val: IQ 파일 2개, 묶음 ['S_off_after']
+  data/raw/hackrf/4_neo2_crowded_20261114/01_수원역_플랫폼/드론_꺼짐/20261114T043313Z_neo2_post_link_off_01_d40adb75/iq.sigmf-data
+  data/raw/hackrf/4_neo2_crowded_20261114/01_수원역_플랫폼/드론_꺼짐/20261114T043320Z_neo2_post_link_off_02_97e54722/iq.sigmf-data
+
+Neo 2 를 켠 IQ 파일 없음, train·validation 겹침 없음, 학습 장소 밖 IQ 파일 없음 → EXP2_LEAK_OK

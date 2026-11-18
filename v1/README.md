@@ -4,6 +4,8 @@
 
 English | [한국어](README.ko.md)
 
+> **This folder is the hackathon version (v1.1), kept as it was.** The current version of the repository (v2, the experiments of the paper) is described in the [main README](../README.md). The same files are in the branch `v1` and the tag `v1.1`. To run the commands below, check out the tag `v1.1`, or run them inside this folder.
+
 **Passive RF drone detection: a YOLO detector that finds drone video links in 20 ms spectrograms from a HackRF One, trained mostly on IQ-level synthetic pictures**
 
 D4D x EDTH hackathon 2026, problem T1-3 "Small-drone and balloon intrusion over the capital area (Gray-zone C-UAS)". A small software-defined radio (HackRF One) listens to 20 MHz of the 2.4 GHz band. Every 20 ms of IQ samples becomes one 640 × 640 spectrogram, and a YOLO26s detector draws boxes around drone video links, Wi-Fi and Bluetooth. A drone box gives the time (ms) and frequency (MHz) of the drone signal. The detector only listens, so it does not interfere with anything around it.
