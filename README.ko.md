@@ -165,7 +165,7 @@ python paper/src/rev1_exp2.py eval --only test2_2_s1 --root <폴더> --weights t
 
 ## 인용
 
-이 저장소(모든 버전): Kim, Jeonghwan. RF Drone Detector. Zenodo. https://doi.org/10.5281/zenodo.23656790. `CITATION.cff` 파일도 들어 있습니다. 논문은 작성 중입니다.
+이 저장소(모든 버전): Kim, Jeonghwan. RF Drone Detector. Zenodo. https://doi.org/10.5281/zenodo.23656790. 논문 실험 코드인 v2.0 버전의 DOI는 https://doi.org/10.5281/zenodo.24345339입니다. `CITATION.cff` 파일도 들어 있습니다. 논문은 작성 중입니다.
 
 ## 라이선스
 
