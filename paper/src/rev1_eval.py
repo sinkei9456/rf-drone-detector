@@ -1,13 +1,14 @@
-"""rev1 평가: 모델 하나 (2026-11-12). 원고 3.5절(threshold), 4.1–4.2절(테스트 1-1, baseline, recall·FPR). 테스트 1-2·1-4 은 데이터가 생기면 추가한다.
+"""생성 간섭 모델 하나의 평가 (2026-11-12). 원고 5.4절(판정 임계값, 재현율·FPR), 미학습 계열 평가(코드 이름 test1_1), 저간섭 실측 평가(코드 이름 test1_3, 함수 baseline).
+Neo 2 합성 평가는 paper/src/rev1_test1_2.py, 혼잡 장소 실측 평가는 paper/src/rev1_test1_4.py.
 판정: 20 ms 이미지 한 장마다, threshold 이상인 드론 박스가 하나라도 있으면 양성.
-  합성(validation·테스트 1-1): 정답 드론 박스와 IoU 0.3 이상인 드론 박스가 threshold 이상이면 정탐.
+  합성(validation·미학습 계열 평가): 정답 드론 박스와 IoU 0.3 이상인 드론 박스가 threshold 이상이면 정탐.
   실측(baseline): 드론 박스의 세로 범위(주파수)가 Neo 2 채널(2444.5–2454.5 MHz = 이미지 세로 0.25–0.75)과 IoU 0.3 이상이면 정탐.
 이미지마다 저장: max_conf(드론 박스 최고 confidence), max_hit(정답과 맞는 드론 박스 최고 confidence). confidence 0.01 이상 박스만 본다.
   → recall(t) = 드론 있는 이미지 중 max_hit ≥ t 의 비율, FPR(t) = 드론 없는 이미지 중 max_conf ≥ t 의 비율.
 threshold: 자기 validation 600장에서 이미지 단위 F1(TP = 드론 이미지 정탐, FN = 드론 이미지 미탐, FP = 드론 없는 이미지 양성)이 가장 큰 값.
   후보 0.01–0.95(0.01 간격), 같은 F1 이면 낮은 값. 테스트 데이터는 보지 않는다. 가중치는 마지막 epoch(last.pt).
-baseline(부록 E 표 E-1): recall = 공원 01·03·09·10·13·07(세션별), 실내 ON. 참고 = 공원 04·05·06·08·11·12(약 50 m). FPR = 공원 02 의 2–3 s(f100–f148),
-  실내 OFF(10-08), 실내 드론 없음(10-07, 안테나 연결, AntennaOn_NoDrone 01–05 의 20 ms 이미지 250장, 학습과 같은 변환 S.to_gray_v7).
+baseline(저간섭 실측 평가, 보충 자료 표 S12): 재현율 = 공원 01·03·09·10·13·07(세션별), 실내 Neo 2 전원 켜짐(10-08). 참고 = 공원 04·05·06·08·11·12(약 50 m).
+  FPR = 공원 02 의 2–3 s(f100–f148), 실내 Neo 2 전원 꺼짐(10-08). 모두 수신 필터 20 MHz 로 취득한 데이터다.
 출력: paper/runs/rev1/eval/<이름>/{val.csv, test1_1.csv, test1_3.csv, result.json}
 사용: python paper/src/rev1_eval.py --name f1_mini_c02_s1 --weights paper/runs/rev1/models/f1_mini_c02_s1.pt   (끝나면 REV1_EVAL_DONE <이름>)"""
 import argparse, json, sys, gc, os
@@ -72,7 +73,6 @@ def tune(v):
 
 
 def baseline(m):
-    import synth_iq as S, hackrf_paths as HP
     Lb = pd.read_csv(C.ROOT / "runs/neo2_labels/labels.csv"); Lb["key"] = np.where(Lb.session.str.startswith("indoor"), Lb.session, Lb.session.str[:2])
     Lb["frame"] = Lb.image.str.extract(r"_f(\d+)\.png$")[0].astype(int)
     rec = ["01", "03", "09", "10", "13", "07", "indoor_ON"]; ref = ["04", "05", "06", "08", "11", "12"]
@@ -82,12 +82,6 @@ def baseline(m):
     for (_, t), boxes in zip(T.iterrows(), predict(m, [str(C.ROOT / p) for p in T.path])):
         hit = [b[4] for b in boxes if iou1(b[1], b[3], *CH) >= IOU]
         rows.append(dict(session=t.key, role=t.role, state=t.state, image=t.image, max_conf=max([b[4] for b in boxes], default=0.0), max_hit=max(hit, default=0.0)))
-    for fid in ("01", "02", "03", "04", "05"):                                        # 실내 드론 없음 10-07
-        f = [str(p) for p in HP.nodrone_files("AntennaOn_NoDrone", fid)]; assert len(f) == 1, fid
-        r = np.fromfile(f[0], dtype=np.int8).astype(np.float32); x = (r[0::2] + 1j * r[1::2]).astype(np.complex64)
-        g = [S.to_gray_v7(x[i * S.N:(i + 1) * S.N]) for i in range(len(x) // S.N)]
-        for i, boxes in enumerate(predict(m, g)):
-            rows.append(dict(session="indoor_nodrone_1007", role="fpr", state="none", image=f"AntennaOn_NoDrone_{fid}_f{i:03d}", max_conf=max([b[4] for b in boxes], default=0.0), max_hit=0.0))
     return pd.DataFrame(rows)
 
 

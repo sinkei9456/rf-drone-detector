@@ -1,7 +1,7 @@
-"""rev1 실험(원고 3–5장) 공통 정의 (2026-11-12).
-fold(제품 계열 5개), 간섭 밀도 4조건, seed, 배경 노이즈 파일, 드론 신호 세그먼트의 train·validation·테스트 나누기, 저장 위치.
-나누기 규칙(원고 3.4절, 부록 B 표 B-2 와 같은 수):
-  - 테스트 fold 의 기종 = 테스트 1 의 드론 신호 세그먼트(그 기종의 것 전부)
+"""생성 간섭 모델 실험(원고 4–6장) 공통 정의 (2026-11-12).
+fold(제품 계열 5개), 간섭 밀도 4조건, seed, 배경 잡음 파일, 드론 신호 세그먼트의 학습·검증 데이터·테스트 나누기, 저장 위치.
+나누기 규칙(원고 표 2, 보충 자료 표 S3 과 같은 수):
+  - 평가 fold의 기종 = 미학습 계열 평가의 드론 신호 세그먼트(그 기종의 것 전부)
   - 나머지 네 fold 에서 validation = Tampere 를 뺀 기존 validation IQ 파일(DRFF-R2·DroneDetect)의 드론 신호 세그먼트, train = 그 밖 전부
     (Tampere 는 기종당 IQ 파일이 하나라 모두 train, RFUAV 는 validation IQ 파일이 없음). 한 IQ 파일(group)은 한쪽에만 들어간다.
   - Neo 2 는 이 모음(runs/iq_pieces_v7)에 없다."""
@@ -16,10 +16,10 @@ FOLDS = [("f1_mini", "Mini", ["DJI Mini 5 Pro", "DJI Mini 4 Pro", "DJI Mini 3 Pr
          ("f3_mavic", "Mavic", ["DJI Mavic 3", "DJI Mavic 3 Classic", "DJI Mavic Pro", "DJI Mavic Pro 2"]),
          ("f4_pro", "전문가용", ["DJI Phantom 4", "DJI Inspire 2", "DJI Matrice 100", "DJI Matrice 210"]),
          ("f5_other", "타 제조사", ["Parrot Disco", "Parrot Mambo", "Yuneec Typhoon H"])]
-CONDS = [("c02", 0.02, "대조군"), ("c20", 0.20, "약"), ("c50", 0.50, "중"), ("c80", 0.80, "강")]   # 목표 = train 스펙트럼 점유율 중앙값
+CONDS = [("c02", 0.02, "2 % 조건"), ("c20", 0.20, "20 % 조건"), ("c50", 0.50, "50 % 조건"), ("c80", 0.80, "80 % 조건")]   # 목표 = train 스펙트럼 점유율 중앙값
 REPS = (1, 2)                                                   # seed 2개: 합성 난수와 학습 난수를 함께 바꾼다(원고 3.5절)
 N_TRAIN, N_VAL, N_TEST_DRONE, N_TEST_NODRONE = 6000, 600, 500, 500
-BG = {"train": "Park02_1", "val": "Park02_2", "test": "Park02_3"}   # 공원 무신호 0–1 s / 1–2 s / 2–3 s
+BG = {"train": "Park02_1", "val": "Park02_2", "test": "Park02_3"}   # 공원 배경 0–1 s / 1–2 s / 2–3 s
 # 난수 씨앗의 첫 숫자(데이터셋 역할마다 다르게): (드론·배경, 와이파이, 블루투스)
 SEED = {"train": (11, 13, 14), "val": (12, 15, 16), "test_drone": (21, 25, 26), "test_nodrone": (23, 27, 28)}
 N_WIFI = [0] * 12 + [1] * 14 + [2] * 14 + [3] * 12 + [4] * 12 + [6] * 12 + [8] * 10 + [10] * 8 + [12] * 6   # v10 규칙(src/synth_iq_build.N_WIFI)

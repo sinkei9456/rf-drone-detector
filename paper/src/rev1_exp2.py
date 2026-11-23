@@ -1,16 +1,13 @@
-"""실험 2: 혼잡한 장소의 실제 배경에 합성 드론을 넣어 학습 (2026-11-15). 데이터 만들기·평가·결과 표·진행 상황.
-원고 번호(11-15 결정):
-  1번 묶음 = 조용한 배경(공원 무신호)에 합성 드론과 합성 와이파이·블루투스를 넣어 학습한 기존 모델 50개의 평가.
-             1-1 = 합성 테스트(옛 테스트 1), 1-2 = Neo 2 합성(옛 테스트 2), 1-3 = 간섭 적은 실측(옛 baseline), 1-4 = 혼잡한 실측(옛 테스트 3).
-  2번 묶음 = 혼잡한 장소의 실제 배경에 합성 드론을 넣어 학습한 새 모델의 평가(이 파일).
-             2-1 (이름 test2_1): 객차 드론 끔 IQ 데이터를 배경으로 학습 → 수원역으로 평가.
-             2-2 (이름 test2_2): 수원역 드론 끔 IQ 데이터를 배경으로 학습 → 객차로 평가.
-             대조 (이름 test2_c): 공원 무신호 + 합성 와이파이·블루투스(간섭 밀도 2·20·50·80 % 를 이미지 번호마다 돌려 1:1:1:1)로 학습 → 수원역·객차 모두 평가.
-세 모델 공통: 드론 한 클래스(0: drone, 와이파이·블루투스 박스 없음). 드론 신호 세그먼트 = 공개 20개 기종 303개 전부(Neo 2 없음, fold 나누지 않음),
-  train·validation 세그먼트는 rev1 과 같은 part 로 나눔. 이미지 확률은 rev1(v10 규칙)과 같다: 15 % 는 드론 없음, 나머지의 70 % 에 드론(그중 15 % 는 2개),
+"""실제 배경 모델: 혼잡한 장소의 실제 배경에 합성 드론 신호를 넣어 학습 (2026-11-15). 데이터 만들기·평가·결과 표·진행 상황. 원고 4.3절, 6.3절 표 13·14, 보충 자료 S7.
+코드 이름과 원고 이름:
+  test2_1 = 객차 배경 모델: 객차 드론 전원 꺼짐 IQ 데이터를 배경으로 학습 → 수원역으로 평가.
+  test2_2 = 수원역 배경 모델: 수원역 드론·조종기 전원 꺼짐 IQ 데이터를 배경으로 학습 → 객차로 평가.
+  비교 대상인 생성 간섭 모델(80 % 조건, 모델 10개)의 결과는 paper/src/rev1_eval.py·rev1_test1_4.py 가 만든 값을 읽는다.
+두 모델 공통: 드론 한 클래스(0: drone, 와이파이·블루투스 박스 없음). 드론 신호 세그먼트 = 공개 20개 기종 303개 전부(Neo 2 없음, fold 나누지 않음),
+  학습·검증 데이터 세그먼트는 rev1 과 같은 part 로 나눔. 이미지 확률은 rev1(v10 규칙)과 같다: 15 % 는 드론 없음, 나머지의 70 % 에 드론(그중 15 % 는 2개),
   SNR 6–25 dB, 대역폭의 50–100 % 가 보이게. train 6,000장, validation 600장, seed 1·2. 학습은 rev1 과 같다(YOLO26s, 40 epoch, batch 16, last.pt).
   threshold = 자기 validation 600장에서 이미지 단위 F1 이 가장 큰 값(rev1_eval.tune). 테스트 데이터로 고르지 않는다.
-실제 배경: 공원 무신호와 수신 설정·int8 단위가 같으므로 공원 무신호(Park02_1)의 RMS 로 나눠 수신기 노이즈 전력을 1 에 맞춘다
+실제 배경: 공원 배경과 수신 설정(수신 필터 20 MHz)·int8 단위가 같으므로 공원 배경(Park02_1)의 RMS 로 나눠 수신기 잡음 전력을 1 에 맞춘다
   (주파수 줄마다 하위 10 % 세기의 중앙값: 공원 1,341, 객차 1,503–1,535, 수원역 2,419. 수원역은 약한 신호가 늘 깔려 있어 높음 → 그대로 둠).
   실제 배경에는 와이파이·블루투스를 더하지 않는다(실제 신호가 이미 있다). 20 ms 창은 IQ 파일 안에서만, 파일 길이에 비례해 고른다(memmap 으로 읽음).
   드론 없는 이미지 = 실제 배경 그대로(정답 박스 없음).
@@ -20,7 +17,7 @@
   Neo 2 를 켠 IQ 파일은 어떤 모델의 학습·validation 에도 쓰지 않는다(build 의 누출 점검이 확인 → EXP2_LEAK_OK).
 명령:
   build  : data/derived/rev1/<이름>/{images,labels,meta.json}, paper/runs/rev1/exp2/{lists,yaml,leak.txt} → EXP2_BUILD_DONE
-  eval   : 모델마다 validation threshold, 1-4 의 이미지 15,163장 전부, 1-3(baseline) → paper/runs/rev1/exp2/eval/<이름>/ → EXP2_EVAL_DONE
+  eval   : 모델마다 검증 데이터의 판정 임계값, 혼잡 장소 실측 이미지 15,163장 전부, 저간섭 실측 평가(baseline) → paper/runs/rev1/exp2/eval/<이름>/ → EXP2_EVAL_DONE
   report : paper/runs/rev1/exp2/RESULTS_exp2.md, results_exp2.json → EXP2_REPORT_DONE
   status : 진행 상황(체인이 매시 정각과 30분에 불러 paper/runs/rev1/exp2/status.log 에 적음)
 사용: python paper/src/rev1_exp2.py build [--n-train N --n-val N --root 폴더 --only 이름 …] | eval [--only 이름 … --root 폴더 --weights 파일] | report | status"""
@@ -33,17 +30,15 @@ import rev1_common as C, rev1_test1_4 as T
 sys.path.insert(0, str(C.ROOT / "src"))
 import synth_iq as S
 
-X = C.RUNS / "exp2"; KINDS = ("test2_1", "test2_2", "test2_c"); NAMES = [f"{k}_s{r}" for r in C.REPS for k in KINDS]
-SEEDX = {"train": 41, "val": 42}; KCODE = {"test2_1": 1, "test2_2": 2, "test2_c": 3}
-TITLE = {"test2_1": "2-1 (객차 배경으로 학습)", "test2_2": "2-2 (수원역 배경으로 학습)", "test2_c": "대조 (공원 배경 + 합성 간섭)"}
-TRAIN_VENUE = {"test2_1": "T", "test2_2": "S", "test2_c": None}
+X = C.RUNS / "exp2"; KINDS = ("test2_1", "test2_2"); NAMES = [f"{k}_s{r}" for r in C.REPS for k in KINDS]
+SEEDX = {"train": 41, "val": 42}; KCODE = {"test2_1": 1, "test2_2": 2}
+TITLE = {"test2_1": "객차 배경 모델", "test2_2": "수원역 배경 모델"}
+TRAIN_VENUE = {"test2_1": "T", "test2_2": "S"}
 VNAME = {"S": "수원역", "T": "객차"}
-SHORT = {"S_on_fixed": "수원역 지상 (채널 고정 확인)", "S_on_unconf": "수원역 지상 (채널 확인 전)", "S_flight": "수원역 비행 중",
-         "T_on_unrec": "객차 (거리 미기록)", "T_on_6m": "객차 6 m", "T_on_10m": "객차 10 m",
-         "S_off_before": "수원역 드론 끔 (영상 켜기 전)", "S_off_after": "수원역 드론 끔 (영상 끈 뒤)", "T_off_unrec": "객차 드론 끔 (혼잡도 미기록)", "T_off_quiet": "객차 드론 끔 (한산한 객실)"}
-MAIN = [("S", "rec_S_ground", ["S_on_fixed", "S_on_unconf"], True, "recall: 수원역 지상 영상 켜짐"), ("S", "rec_S_flight", ["S_flight"], True, "recall: 수원역 비행 중"),
-        ("S", "fpr_S", ["S_off_before", "S_off_after"], False, "FPR: 수원역 드론 끔"),
-        ("T", "rec_T_ground", ["T_on_unrec", "T_on_6m", "T_on_10m"], True, "recall: 객차 영상 켜짐"), ("T", "fpr_T", ["T_off_unrec", "T_off_quiet"], False, "FPR: 객차 드론 끔")]
+SHORT = T.GNAME                                                   # 취득 조건 이름(보충 자료 표 S13 과 같음)
+MAIN = [("S", "rec_S_ground", ["S_on_fixed", "S_on_unconf"], True, "재현율: 수원역, 비비행 상태, 영상 전송"), ("S", "rec_S_flight", ["S_flight"], True, "재현율: 수원역, 비행 중"),
+        ("S", "fpr_S", ["S_off_before", "S_off_after"], False, "FPR: 수원역, 드론 전원 꺼짐"),
+        ("T", "rec_T_ground", ["T_on_unrec", "T_on_6m", "T_on_10m"], True, "재현율: 객차, 비비행 상태, 영상 전송"), ("T", "fpr_T", ["T_off_unrec", "T_off_quiet"], False, "FPR: 객차, 드론 전원 꺼짐")]   # 원고 표 13 의 열
 
 
 # ---------------- 데이터 나누기와 누출 점검 ----------------
@@ -70,7 +65,7 @@ def leak_check(F):
             assert all(g[0] == TRAIN_VENUE[k] for g in gs), (k, role, "학습 장소가 아닌 IQ 파일")
             L.append(f"{k} {role}: IQ 파일 {len(files)}개, 묶음 {sorted(set(gs))}")
             L += [f"  {p}" for p in files]
-    L += ["", "Neo 2 를 켠 IQ 파일 없음, train·validation 겹침 없음, 학습 장소 밖 IQ 파일 없음 → EXP2_LEAK_OK"]
+    L += ["", "Neo 2 를 켠 IQ 파일 없음, 학습·검증 데이터 겹침 없음, 학습 장소 밖 IQ 파일 없음 → EXP2_LEAK_OK"]
     return L
 
 
@@ -85,7 +80,7 @@ _W = {}
 
 def _init():
     import rev1_synth as R
-    R._init(); _W["R"] = R; _W["arr"], _W["meta"] = R._W["arr"], R._W["meta"]; _W["sd"] = R._W["train"][1]   # 공원 무신호 Park02_1 의 RMS
+    R._init(); _W["R"] = R; _W["arr"], _W["meta"] = R._W["arr"], R._W["meta"]; _W["sd"] = R._W["train"][1]   # 공원 배경 Park02_1 의 RMS
     _W["mm"] = {}
 
 
@@ -109,20 +104,14 @@ def compose_real(kind, role, pool, idx, rep, files):
     return x, dboxes, dict(n_drone=nd, bg_file=files[fi], bg_offset=off, seed=key, pieces=used)
 
 
-def compose_ctrl(role, pool, idx, rep, K):
-    cond = C.CONDS[idx % 4][0]; x, boxes, info = _W["R"].compose(role, pool, idx, rep, K[cond])
-    info["cond"] = cond; return x, [b for b in boxes if b[0] == "drone"], info
-
-
 def _img_job(a):
     out, stem, kind, role, pool, idx, rep, extra = a
-    x, boxes, info = compose_ctrl(role, pool, idx, rep, extra) if kind == "test2_c" else compose_real(kind, role, pool, idx, rep, extra)
+    x, boxes, info = compose_real(kind, role, pool, idx, rep, extra)
     _W["R"].write(Path(out), stem, x, boxes); info["stem"] = stem; return info
 
 
 def build(n_train=C.N_TRAIN, n_val=C.N_VAL, root=None, only=None, workers=12):
     meta = C.pieces()[1]; PS = piece_split(meta); F = off_files(); L = leak_check(F)
-    K = {c: v["k"] for c, v in json.load(open(C.RUNS / "calib.json")).items()}
     droot = Path(root) if root else C.DATA; x = Path(root) / "exp2" if root else X
     (x / "lists").mkdir(parents=True, exist_ok=True); (x / "yaml").mkdir(parents=True, exist_ok=True); (x / "leak.txt").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L[:2] + [l for l in L if not l.startswith("  ")][2:]), flush=True)
@@ -133,7 +122,7 @@ def build(n_train=C.N_TRAIN, n_val=C.N_VAL, root=None, only=None, workers=12):
             if (d / "meta.json").exists(): print("있음, 건너뜀:", name, flush=True); continue
             (d / "images").mkdir(parents=True, exist_ok=True); (d / "labels").mkdir(parents=True, exist_ok=True); t = time.time(); js = []
             for role, n in (("train", n_train), ("val", n_val)):
-                js += [(str(d), f"{role}_{i:05d}", kind, role, PS[role], i, rep, K if kind == "test2_c" else F[kind][role]) for i in range(n)]
+                js += [(str(d), f"{role}_{i:05d}", kind, role, PS[role], i, rep, F[kind][role]) for i in range(n)]
             info = P.map(_img_job, js, chunksize=16)
             json.dump(info, open(d / "meta.json.tmp", "w")); (d / "meta.json.tmp").rename(d / "meta.json")
             nd = sum(r["n_drone"] > 0 for r in info); print(f"{name}: {len(info)}장 (드론 있음 {nd}장, 없음 {len(info) - nd}장), {time.time() - t:.0f}초", flush=True)
@@ -182,8 +171,8 @@ def evaluate(only=None, root=None, weights=None):
 
 
 # ---------------- 결과 표 ----------------
-def _old(train="cmix"):
-    """기존 모델 50개(1번 묶음) 중 한 학습 조건의 1-4 결과: 모델마다 (fold, result, test1_4.csv)."""
+def _old(train="c80"):
+    """생성 간섭 모델 중 한 학습 조건(모델 10개)의 혼잡 장소 실측 평가 결과: 모델마다 (fold, result, test1_4.csv)."""
     out = []
     for f in sorted((C.RUNS / "eval").glob(f"*_{train}_s*/test1_4.json")):
         out.append(dict(name=f.parent.name, fold=f.parent.name.rsplit(f"_{train}", 1)[0], t3=json.load(open(f)), res=json.load(open(f.parent / "result.json")),
@@ -212,46 +201,43 @@ def report():
     for name in NAMES:
         f = X / "eval" / name / "result.json"
         if f.exists(): M[name] = dict(res=json.load(open(f)), csv=pd.read_csv(f.parent / "test1_4.csv"), base=pd.read_csv(f.parent / "test1_3.csv"))
-    old = _old("cmix"); olds = _old("c80")
+    olds = _old("c80"); OLD = "생성 간섭 모델, 80 %"
     fmt = lambda v: "" if v is None else f"{v * 100:.1f}"
-    L = ["# 실험 2 결과: 혼잡한 장소의 실제 배경으로 학습 (2-1, 2-2, 대조)", "",
-         "paper/src/rev1_exp2.py report 가 만든 표. 모델 정의와 세션 나누기는 그 파일 머리말, 누출 점검은 leak.txt.",
-         "값은 seed 2개(1, 2)의 평균이다(모델이 하나만 끝났으면 그 값). '기존 혼합'과 '기존 강 80 %'는 1번 묶음의 모델 10개(fold 5개 × seed 2개) 평균이다.",
-         "학습이나 validation 에 쓴 묶음은 '학습에 씀'으로 적고 값을 내지 않는다.", "", f"끝난 모델: {', '.join(M) or '없음'}", ""]
-    L += ["**표 1. 모델별 validation threshold 와 이미지 단위 F1 (단위 없음, validation 600장)**", "", "| 모델 | threshold | F1 | 드론 이미지 | 드론 없는 이미지 |", "|---|---:|---:|---:|---:|"]
-    for n, r in M.items(): v = r["res"]["val"]; L.append(f"| {TITLE[n.split('_s')[0]]}, seed {n[-1]} | {v['threshold']:.2f} | {v['f1']:.3f} | {v['n_pos']} | {v['n_neg']} |")
+    L = ["# 실제 배경 모델 결과", "",
+         "paper/src/rev1_exp2.py report 가 만든 표. 모델 정의와 세션 나누기는 그 파일 머리말, 데이터 누출 점검은 leak.txt.",
+         "값은 시드 2개(1, 2)의 평균이다(모델이 하나만 끝났으면 그 값). '생성 간섭 모델, 80 %'는 80 % 조건 모델 10개(fold 5개 × 시드 2개)의 fold 균형 평균이다.",
+         "학습이나 검증에 쓴 취득 조건은 '학습에 사용'으로 적고 값을 내지 않는다.", "", f"평가가 끝난 모델: {', '.join(M) or '없음'}", ""]
+    L += ["**표 1. 모델별 판정 임계값과 검증 데이터의 이미지 단위 F1 점수 (단위 없음, 검증 이미지 600장)**", "", "| 모델 | 시드 | 판정 임계값 | F1 점수 | 드론 존재 이미지 | 드론 부재 이미지 |", "|---|---:|---:|---:|---:|---:|"]
+    for n, r in M.items(): v = r["res"]["val"]; L.append(f"| {TITLE[n.split('_s')[0]]} | {n[-1]} | {v['threshold']:.2f} | {v['f1']:.3f} | {v['n_pos']} | {v['n_neg']} |")
     kinds = [k for k in KINDS if any(n.startswith(k) for n in M)]
     def kmean(k, fn):
         vals = [fn(r) for n, r in M.items() if n.startswith(k)]; vals = [v for v in vals if v is not None]; return float(np.mean(vals)) if vals else None
     def omean(rows, fn): return float(np.mean([np.mean([fn(r) for r in rows if r["fold"] == fk]) for fk in sorted({r["fold"] for r in rows})])) if rows else None
-    L += ["", "**표 2. 묶음을 합친 recall 과 FPR (단위: %, validation threshold 로 판정)**", "", "| 모델 | " + " | ".join(t for *_, t in MAIN) + " |", "|---|" + "---:|" * len(MAIN)]
+    L += ["", "**표 2. 취득 조건을 합친 재현율과 FPR (단위: %, 검증 데이터에서 정한 판정 임계값으로 판정, 원고 표 13)**", "", "| 모델 | " + " | ".join(t for *_, t in MAIN) + " |", "|---|" + "---:|" * len(MAIN)]
     for k in kinds:
         cells = []
         for v, key, gs, dr, _ in MAIN:
-            if not dr and TRAIN_VENUE[k] == v: cells.append("학습에 씀"); continue
+            if not dr and TRAIN_VENUE[k] == v: cells.append("학습에 사용"); continue
             val = kmean(k, lambda r: _rate(r["csv"], gs, dr, r["res"]["val"]["threshold"])); s = fmt(val)
             cells.append(s + (" (참고)" if dr and TRAIN_VENUE[k] == v else ""))
         L.append(f"| {TITLE[k]} | " + " | ".join(cells) + " |")
-    for lab, rows in (("기존 혼합 (1번 묶음)", old), ("기존 강 80 % (1번 묶음)", olds)):
-        L.append(f"| {lab} | " + " | ".join(fmt(omean(rows, lambda r, gs=gs, dr=dr: _rate(r["csv"], gs, dr, r["res"]["val"]["threshold"]))) for v, key, gs, dr, _ in MAIN) + " |")
-    L += ["", "'(참고)'는 배경 장소가 학습과 같은 recall 이다(Neo 2 신호는 학습에 쓰지 않음).", "",
-          "**표 3. 장소별 AUC (단위 없음, 0.5 = 구분 못 함, 1 = 완전히 구분)**", "", "| 모델 | 수원역 | 객차 |", "|---|---:|---:|"]
+    L.append(f"| {OLD} | " + " | ".join(fmt(omean(olds, lambda r, gs=gs, dr=dr: _rate(r["csv"], gs, dr, r["res"]["val"]["threshold"]))) for v, key, gs, dr, _ in MAIN) + " |")
+    L += ["", "'(참고)'는 배경 장소가 학습과 같은 재현율이다(Neo 2 신호는 학습에 쓰지 않음).", "",
+          "**표 3. 장소별 AUC (단위 없음, 0.5 = 구분 능력 없음, 1 = 완전한 구분, 원고 표 14)**", "", "| 모델 | 수원역 대합실 | 전철 1호선 객차 |", "|---|---:|---:|"]
     for k in kinds:
-        L.append(f"| {TITLE[k]} | " + " | ".join("학습에 씀" if TRAIN_VENUE[k] == v else f"{kmean(k, lambda r, v=v: _auc_v(r['csv'], v)):.3f}" for v in "ST") + " |")
-    for lab, rows in (("기존 혼합 (1번 묶음)", old), ("기존 강 80 % (1번 묶음)", olds)):
-        L.append(f"| {lab} | " + " | ".join(f"{omean(rows, lambda r, v=v: _auc_v(r['csv'], v)):.3f}" for v in "ST") + " |")
-    L += ["", "**표 4. threshold 를 바꿔 FPR 을 10 % 로 맞췄을 때의 recall (단위: %, 테스트 데이터의 곡선에서 읽은 참고값)**", "", "| 모델 | 수원역 | 객차 |", "|---|---:|---:|"]
+        L.append(f"| {TITLE[k]} | " + " | ".join("학습에 사용" if TRAIN_VENUE[k] == v else f"{kmean(k, lambda r, v=v: _auc_v(r['csv'], v)):.3f}" for v in "ST") + " |")
+    L.append(f"| {OLD} | " + " | ".join(f"{omean(olds, lambda r, v=v: _auc_v(r['csv'], v)):.3f}" for v in "ST") + " |")
+    L += ["", "**표 4. 판정 임계값을 바꿔 FPR을 10 %로 맞췄을 때의 재현율 (단위: %, 평가 데이터의 곡선에서 읽은 참고값)**", "", "| 모델 | 수원역 대합실 | 전철 1호선 객차 |", "|---|---:|---:|"]
     for k in kinds:
-        L.append(f"| {TITLE[k]} | " + " | ".join("학습에 씀" if TRAIN_VENUE[k] == v else fmt(kmean(k, lambda r, v=v: _rec_at(r['csv'], v))) for v in "ST") + " |")
-    for lab, rows in (("기존 혼합 (1번 묶음)", old), ("기존 강 80 % (1번 묶음)", olds)):
-        L.append(f"| {lab} | " + " | ".join(fmt(omean(rows, lambda r, v=v: _rec_at(r['csv'], v))) for v in "ST") + " |")
+        L.append(f"| {TITLE[k]} | " + " | ".join("학습에 사용" if TRAIN_VENUE[k] == v else fmt(kmean(k, lambda r, v=v: _rec_at(r['csv'], v))) for v in "ST") + " |")
+    L.append(f"| {OLD} | " + " | ".join(fmt(omean(olds, lambda r, v=v: _rec_at(r['csv'], v))) for v in "ST") + " |")
     # bootstrap (IQ 파일 단위, 이미지 수로 무게, 같은 표본을 seed 두 모델에 함께)
-    L += ["", "**표 5. 표 2 의 IQ 파일 단위 bootstrap 95 % 신뢰구간 (단위: %, 2,000회)**", "", "| 모델 | " + " | ".join(t for *_, t in MAIN) + " |", "|---|" + "---:|" * len(MAIN)]
+    L += ["", "**표 5. 표 2의 IQ 파일 단위 부트스트랩 95 % 신뢰구간 (단위: %, 2,000회)**", "", "| 모델 | " + " | ".join(t for *_, t in MAIN) + " |", "|---|" + "---:|" * len(MAIN)]
     rng = np.random.default_rng(0)
     for k in kinds:
         rs = [r for n, r in M.items() if n.startswith(k)]; cells = []
         for v, key, gs, dr, _ in MAIN:
-            if not dr and TRAIN_VENUE[k] == v: cells.append("학습에 씀"); continue
+            if not dr and TRAIN_VENUE[k] == v: cells.append("학습에 사용"); continue
             per = []
             for r in rs:
                 q = r["csv"][r["csv"].group.isin(gs)]; t = r["res"]["val"]["threshold"]
@@ -260,21 +246,22 @@ def report():
             idx = rng.integers(0, len(clips), (2000, len(clips))); est = (Kc[:, idx].sum(2) / nimg[idx].sum(1)).mean(0)
             cells.append(f"{np.percentile(est, 2.5) * 100:.1f}–{np.percentile(est, 97.5) * 100:.1f}")
         L.append(f"| {TITLE[k]} | " + " | ".join(cells) + " |")
-    # 1-3 (baseline)
-    rec_s = ["01", "03", "09", "10", "13", "07", "indoor_ON"]; fpr_s = ["02", "indoor_OFF", "indoor_nodrone_1007"]
-    SN = {"01": "공원 01 (1 m)", "03": "공원 03 (조종기와 10 m)", "09": "공원 09 (고도 10 m)", "10": "공원 10 (고도 10 m)", "13": "공원 13 (근처 비행)", "07": "공원 07 (고도 30 m)",
-          "indoor_ON": "실내 ON", "02": "공원 02 (드론 끔)", "indoor_OFF": "실내 OFF", "indoor_nodrone_1007": "실내 드론 없음 (10-07)"}
+    # 저간섭 실측 평가(baseline)
+    rec_s = ["01", "03", "09", "10", "13", "07", "indoor_ON"]; fpr_s = ["02", "indoor_OFF"]
+    SN = {"01": "공원 세션 01 (조종기와 1 m)", "03": "공원 세션 03 (조종기와 10 m)", "09": "공원 세션 09 (고도 10 m)", "10": "공원 세션 10 (고도 10 m)",
+          "13": "공원 세션 13 (근처 자유 비행)", "07": "공원 세션 07 (고도 30 m)", "indoor_ON": "실내, Neo 2 전원 켜짐",
+          "02": "공원, 드론·조종기 전원 꺼짐 (세션 02)", "indoor_OFF": "실내, Neo 2 전원 꺼짐"}          # 보충 자료 표 S25·S26 의 열
     def bmean(k, s, kind): return kmean(k, lambda r: r["res"]["baseline_recall"][s]["all"] if kind == "rec" else r["res"]["baseline_fpr"][s]["fpr"])
     def bold(rows, s, kind): return omean(rows, lambda r: r["res"]["baseline_recall"][s]["all"] if kind == "rec" else r["res"]["baseline_fpr"][s]["fpr"])
-    for kind, ss, title in (("rec", rec_s, "**표 6. 1-3(간섭 적은 실측)의 recall (단위: %, 세션별)**"), ("fpr", fpr_s, "**표 7. 1-3(간섭 적은 실측)의 FPR (단위: %, 세션별)**")):
+    for kind, ss, title in (("rec", rec_s, "**표 6. 저간섭 실측 평가의 재현율 (단위: %, 세션별)**"), ("fpr", fpr_s, "**표 7. 저간섭 실측 평가의 FPR (단위: %, 세션별)**")):
         L += ["", title, "", "| 모델 | " + " | ".join(SN[s] for s in ss) + " |", "|---|" + "---:|" * len(ss)]
         for k in kinds: L.append(f"| {TITLE[k]} | " + " | ".join(fmt(bmean(k, s, kind)) for s in ss) + " |")
-        for lab, rows in (("기존 혼합 (1번 묶음)", old), ("기존 강 80 % (1번 묶음)", olds)): L.append(f"| {lab} | " + " | ".join(fmt(bold(rows, s, kind)) for s in ss) + " |")
+        L.append(f"| {OLD} | " + " | ".join(fmt(bold(olds, s, kind)) for s in ss) + " |")
     # 모델별, 묶음별
-    L += ["", "**표 8. 모델별, 묶음별 recall(드론 있음)과 FPR(드론 끔) (단위: %)**", "", "| 모델 | " + " | ".join(SHORT[g] for g, _, _ in T.GROUPS) + " |", "|---|" + "---:|" * len(T.GROUPS)]
+    L += ["", "**표 8. 모델과 취득 조건별 재현율(드론 존재)과 FPR(드론 전원 꺼짐) (단위: %)**", "", "| 모델 | 시드 | " + " | ".join(SHORT[g] for g, _, _ in T.GROUPS) + " |", "|---|---:|" + "---:|" * len(T.GROUPS)]
     for n, r in M.items():
         k = n.split("_s")[0]
-        L.append(f"| {TITLE[k]}, seed {n[-1]} | " + " | ".join("학습에 씀" if (not d and TRAIN_VENUE[k] == g[0]) else fmt(r["res"]["test3"][g]["rate"]) for g, _, d in T.GROUPS) + " |")
+        L.append(f"| {TITLE[k]} | {n[-1]} | " + " | ".join("학습에 사용" if (not d and TRAIN_VENUE[k] == g[0]) else fmt(r["res"]["test3"][g]["rate"]) for g, _, d in T.GROUPS) + " |")
     (X / "RESULTS_exp2.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     json.dump({n: r["res"] for n, r in M.items()}, open(X / "results_exp2.json", "w"), ensure_ascii=False, indent=1)
     print("\n".join(L)); print("EXP2_REPORT_DONE", flush=True)
@@ -287,7 +274,7 @@ def status():
     for n in NAMES:
         k = n.split("_s")[0]; e = X / "eval" / n / "result.json"; rc = X / f"det_{n}" / "train" / "results.csv"
         if e.exists():
-            r = json.load(open(e)); t3 = r["test3"]; v = "S" if k in ("test2_1", "test2_c") else "T"
+            r = json.load(open(e)); t3 = r["test3"]; v = "S" if k == "test2_1" else "T"
             gs_on = [g for g, _, d in T.GROUPS if d and g[0] == v]; gs_off = [g for g, _, d in T.GROUPS if not d and g[0] == v]
             rec = sum(t3[g]["rate"] * t3[g]["n"] for g in gs_on) / sum(t3[g]["n"] for g in gs_on); fpr = sum(t3[g]["rate"] * t3[g]["n"] for g in gs_off) / sum(t3[g]["n"] for g in gs_off)
             s.append(f"{n}: 평가 끝(threshold {r['val']['threshold']:.2f}, {VNAME[v]} recall {rec * 100:.1f} %, FPR {fpr * 100:.1f} %)")

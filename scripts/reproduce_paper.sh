@@ -2,8 +2,8 @@
 # Reproduce the experiments of the paper (v2) from the raw IQ data.
 # Run from the repository root:  bash scripts/reproduce_paper.sh [part ...]
 #   parts: materials  generated  crowded  figures   (default: materials generated crowded)
-#   materials : background noise, drone signal segments (same steps as the hackathon pipeline, v1/scripts/reproduce.sh 01-07)
-#   generated : models trained with generated interference: 5 densities x 5 folds x 2 seeds = 50 models (about 47 h on one DGX Spark)
+#   materials : park background, drone signal segments (steps 02-07 of the hackathon pipeline, v1/scripts/reproduce.sh; its step 01, the receiver noise, is not used)
+#   generated : models trained with generated interference: 4 densities x 5 folds x 2 seeds = 40 models (about 38 h on one DGX Spark)
 #   crowded   : evaluation on the crowded sites and the real-background models (needs the crowded-site IQ data, which is not public)
 #   figures   : figures of the paper (needs the NanumGothic font for the Korean labels)
 # Needs data/raw/ prepared as described in README.md and the COCO-pretrained src/yolo26s.pt (GitHub release v1.0).
@@ -43,25 +43,23 @@ train() {   # train <runs folder> <name> <seed>: YOLO26s from COCO weights, 40 e
 eval_generated() { expect "REV1_EVAL_DONE $1" $PY -W ignore paper/src/rev1_eval.py --name $1 --weights $R/models/$1.pt; }
 
 materials() {
-  step 01_hackrf_clean   $PY src/hackrf_clean.py                          # receiver noise and park backgrounds with short bursts removed
   step 02_drff_scan      drff_scan                                        # DRFF-R2: drone band and on-time per file
   step 03_pieces_v3      $PY src/synth_iq_build.py pieces --ver v3        # drone signal segments (train/test) from DRFF-R2, Tampere, DroneDetect, RFUAV
   step 04_pieces_v7      $PY src/synth_iq_build.py pieces_val --ver v7    # + validation segments -> runs/iq_pieces_v7.npy (303 segments, 20 models)
   step 05_neo2_pictures  pictures data/raw/hackrf/3_neo2_park/[0-9][0-9]_* data/raw/hackrf/2_neo2_indoor/20261008_drone_*
   step 06_neo2_autolabel $PY src/neo2_autolabel.py --write                # rule-based Neo 2 boxes (labels of the low-interference real test)
-  step 07_neo2_pieces    $PY src/neo2_pieces.py                           # Neo 2 segments, park background
+  step 07_neo2_pieces    $PY src/neo2_pieces.py                           # park background with short bursts removed, Neo 2 segments
 }
 
 generated() {
   step 10_calib        $PY paper/src/rev1_synth.py calib                  # burst counts that give 2/20/50/80 % median occupancy
   step 11_synth        $PY paper/src/rev1_synth.py build --workers $WORKERS
   step 12_summary      $PY paper/src/rev1_synth.py summary
-  step 13_mix          expect REV1_MIX_OK $PY paper/src/rev1_mix.py       # mixed condition (four densities 1:1:1:1) and its checks
   step 14_test1_2      expect REV1_T2_BUILD_DONE $PY paper/src/rev1_test1_2.py build --workers $WORKERS
   step 15_leak         expect REV1_LEAK_OK $PY paper/src/rev1_leak.py     # data leakage check; training starts only if every check passes
   for seed in 1 2; do
     for fold in f1_mini f2_air f3_mavic f4_pro f5_other; do
-      for cond in c02 c20 c50 c80 cmix; do
+      for cond in c02 c20 c50 c80; do
         n=${fold}_${cond}_s${seed}
         step 20_train_$n train $R $n $seed
         step 21_eval_$n  eval_generated $n                               # validation threshold, unseen-family test, low-interference real test
@@ -79,7 +77,7 @@ crowded() {
   step 33_test1_4_report $PY paper/src/rev1_test1_4.py report
   step 34_realbg_build   expect EXP2_LEAK_OK $PY -W ignore paper/src/rev1_exp2.py build --workers $WORKERS
   for seed in 1 2; do
-    for k in test2_1 test2_2 test2_c; do
+    for k in test2_1 test2_2; do
       n=${k}_s${seed}
       step 35_train_$n train $X $n $seed
       step 36_eval_$n  $PY -W ignore paper/src/rev1_exp2.py eval --only $n

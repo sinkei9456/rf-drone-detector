@@ -339,7 +339,7 @@ def _neo2():
         fr = np.fft.fftfreq(S.N, 1 / S.FS); meta = json.load(open(ROOT / "runs/neo2_pieces_meta.json"))
         _W["neo2"] = dict(arr=np.load(ROOT / "runs/neo2_pieces.npy", mmap_mode="r"), meta=meta, fr=fr,
                           pool={p: [j for j, m in enumerate(meta) if m["part"] == p and m["s0_db"] >= NEO2_MIN_POOL_DB] for p in ("train", "val")},   # 원래 세기 1.5 dB 미만 조각은 안 씀(넣은 뒤 1 dB 아래가 될 수 있음)
-                          shape={k: np.interp(fr, f1[ok], Z[k][ok]) for k in ("off", "park")}, park=(f1[ok], Z["park"][ok]))
+                          shape={k: np.interp(fr, f1[ok], Z[k][ok]) for k in ("off", "park") if k in Z}, park=(f1[ok], Z["park"][ok]))
     return _W["neo2"]
 
 

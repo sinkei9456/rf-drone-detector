@@ -1,5 +1,5 @@
 """v9 합성 재료 만들기 (2026-10-09).
-1) 공원 바탕: 공원 02(드론·조종기 끔, 3초)를 1초씩 셋으로 나눠 src/hackrf_clean.clean 으로 짧은 신호를 지운다(실내 안테나 뺀 녹음과 같은 방법).
+1) 공원 바탕: 공원 02(드론·조종기 끔, 3초)를 1초씩 셋으로 나눠 src/hackrf_clean.clean 으로 짧은 신호를 지운다.
    → data/derived/hackrf_clean/Park02_{1,2,3}.npy (1·2 = 학습 그림 바탕, 3 = 검증 그림 바탕)
 2) Neo 2 조각: 자동 레이블(src/neo2_autolabel.py, runs/neo2_labels/labels.csv)에서 "보임" 그림만.
    학습용 = 공원 01·03·09, 검증용 = 공원 10. 테스트(실내 전부, 공원 13·07·04·05·06·08·11·12)와 공원 02 는 쓰지 않는다.
@@ -7,7 +7,7 @@
    100–200 kHz 의 값을 위상 그대로 옮겨 채운 것(조각을 다른 주파수로 옮길 때 0 Hz 줄이 따라가 가짜 선이 생기지 않게).
    세기 기준: 공원 02 원본(평균 뺌)의 복소 표준편차로 나눔 = 바탕(잡음 세기 1)과 같은 기준.
    → runs/neo2_pieces.npy (complex64 [조각 수, 400,000]), runs/neo2_pieces_meta.json (session, image, part, t0, t1, s0_db = 신호 칸의 드론 대역 세기 중앙값)
-3) 잡음 모양: 바탕마다 주파수별 잡음 세기(평균 1 로 맞춤, 1,024칸) → runs/noise_shapes.npz (off = 안테나 뺀 녹음 01–03, park = 공원 02)
+3) 잡음 모양: 바탕마다 주파수별 잡음 세기(평균 1 로 맞춤, 1,024칸) → runs/noise_shapes.npz (park = 공원 02. 논문에는 수신 필터 20 MHz 로 취득한 공원 배경만 쓴다)
 사용: python src/neo2_pieces.py"""
 import sys, json
 from pathlib import Path
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     for k in range(3):
         seg = x[k * int(FS): (k + 1) * int(FS)]; y, frac, pdb, miss = HC.clean(seg, rng); np.save(out / f"Park02_{k + 1}.npy", y)
         print(f"Park02_{k + 1}: {len(seg) / FS:.3f} 초, 지운 칸 {frac * 100:.2f} %, 채운 자리 세기 차 {pdb:+.2f} dB, 못 옮긴 덩어리 {miss}")
-    sh = dict(off=np.mean([shape(np.load(out / f"AntennaOff_{k}.npy")) for k in ("01", "02", "03")], 0), park=shape(np.load(out / "Park02_1.npy")))
+    sh = dict(park=shape(np.load(out / "Park02_1.npy")))
     np.savez(ROOT / "runs/noise_shapes.npz", f_mhz=(np.arange(1024) - 512) * FS / 1024 / 1e6, **sh)
     print("잡음 모양(평균 1 기준 dB): 가운데 ±1 MHz / 끝 ±9 MHz 밖 —", {k: (round(10 * np.log10(v[506:518].mean()), 2), round(10 * np.log10(np.r_[v[:52], v[-52:]].mean()), 2)) for k, v in sh.items()})
     L = pd.read_csv(ROOT / "runs/neo2_labels/labels.csv"); L["k"] = L.session.str[:2]

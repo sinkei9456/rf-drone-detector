@@ -1,15 +1,15 @@
-"""rev1 합성 데이터 만들기 (2026-11-12). 원고 3.2–3.4절, 4.1절(테스트 1). 학습은 하지 않는다(CPU).
+"""생성 간섭 모델의 합성 데이터 만들기 (2026-11-12). 원고 3–4장, 미학습 계열 평가. 학습은 하지 않는다(CPU).
 이미지 한 장(v10 규칙, src/synth_iq_build._img_job_v9 와 같은 확률):
   15 % 는 신호를 넣지 않고, 나머지의 70 % 에 드론 신호 세그먼트(그중 15 % 는 2개). 드론은 대역폭의 50–100 % 가 보이게(30 % 는 전체), SNR 6–25 dB.
-  배경 노이즈 = 공원 무신호(train 0–1 s, validation 1–2 s, 테스트 2–3 s)에서 무작위 20 ms, 노이즈 전력 1.
+  배경 잡음 = 공원 배경(train 0–1 s, validation 1–2 s, 테스트 2–3 s)에서 무작위 20 ms, 노이즈 전력 1.
   와이파이·블루투스 버스트 개수 = 이미지마다 v10 규칙으로 뽑은 기준 개수(와이파이 N_WIFI, 블루투스 0–30) × 간섭 밀도 배율 k (확률적 반올림).
-간섭 밀도 4조건을 같은 이미지로 맞추는 방법(원고 3.3절 "드론 신호 세그먼트, 위치, SNR, 배경 노이즈가 같고 간섭 신호의 양만 다르다"):
+간섭 밀도 4조건을 같은 이미지로 맞추는 방법(원고 3.3절 "드론 신호 세그먼트, 위치, SNR, 배경 잡음이 같고 간섭 신호의 양만 다르다"):
   드론·배경·기준 개수는 난수 A, 와이파이는 난수 B, 블루투스는 난수 C 로 따로 뽑는다. 버스트는 하나씩 차례로 뽑히므로 개수가 늘어도 앞의 버스트는 같다
   → 밀도가 높은 조건은 낮은 조건의 버스트를 모두 포함한다(그림 5 와 같은 방식).
-스펙트럼 점유율(원고 3.3절): 97 × 512 칸, 노이즈 플로어 = 그 이미지의 배경 노이즈(드론·버스트 넣기 전)에서 줄마다 하위 10 %, +6 dB, 드론 박스와 DC 제외.
+스펙트럼 점유율(원고 3.3절): 97 × 512 칸, 잡음 세기 = 그 이미지의 배경 잡음(드론·버스트 넣기 전)에서 줄마다 하위 10 %, +6 dB, 드론 박스와 DC 제외.
 명령:
   calib  : 간섭 밀도마다 k 를 찾는다. fold 1 train 1,500장(seed 1)의 점유율 중앙값이 목표(2·20·50·80 %)에 맞도록 이분 탐색 → paper/runs/rev1/calib.json
-  build  : train·validation 40벌(5 fold × 4 조건 × seed 2) + 테스트 1(fold × 테스트 밀도 4, 드론 있는 이미지 500) + 드론 없는 이미지(테스트 밀도 4 × 500)
+  build  : 학습·검증 데이터 40벌(5 fold × 4 조건 × seed 2) + 미학습 계열 평가(fold × 테스트 밀도 4, 드론 있는 이미지 500) + 드론 없는 이미지(테스트 밀도 4 × 500)
            → data/derived/rev1/<이름>/{images,labels}, meta.json(이미지마다 점유율·버스트 수·드론 출처), 학습 목록·yaml → paper/runs/rev1/{lists,yaml}
   summary: 만든 데이터셋마다 점유율 중앙값 표 → paper/runs/rev1/synth_summary.md
 사용: python paper/src/rev1_synth.py calib | build [--only 이름 …] | summary   (끝나면 REV1_CALIB_DONE / REV1_BUILD_DONE / REV1_SUMMARY_DONE)"""
@@ -40,7 +40,7 @@ def compose(role, pool, idx, rep, k, fold_i=0, drone=None):
     반환 (iq, 박스 목록, 정보)."""
     _init(); arr, meta = _W["arr"], _W["meta"]
     sa, sw, sb = C.SEED[role]; key = [rep, fold_i, idx] if role in ("train", "val") else ([fold_i, idx] if role == "test_drone" else [idx])
-    if role in ("train", "val"): key = [rep, idx]                            # train·validation: fold 와 상관없이 같은 씨앗(드론 출처만 fold 의 모음에서 고름)
+    if role in ("train", "val"): key = [rep, idx]                            # 학습·검증 데이터: fold 와 상관없이 같은 씨앗(드론 출처만 fold 의 모음에서 고름)
     rng = np.random.default_rng([sa] + key)
     if drone is None:
         empty = rng.random() < 0.15; nd = (2 if rng.random() < 0.15 else 1) if (not empty and rng.random() < 0.7) else 0
@@ -149,7 +149,7 @@ def build(only=None, workers=16):
 
 
 def summary():
-    L = ["# rev1 합성 데이터 요약", "", "paper/src/rev1_synth.py summary 가 만든 표. 스펙트럼 점유율은 원고 3.3절의 정의(드론 박스·DC 제외).", "",
+    L = ["# 생성 간섭 모델의 합성 데이터 요약", "", "paper/src/rev1_synth.py summary 가 만든 표. 스펙트럼 점유율은 원고 3.3절의 정의(드론 경계 상자·DC 제외).", "",
          "**표 1. 간섭 밀도 배율 (calib.json, fold 1 train 1,500장으로 맞춤)**", "", "| 조건 | 목표 (%) | 배율 k | 맞춘 중앙값 (%) |", "|---|---:|---:|---:|"]
     cal = json.load(open(C.RUNS / "calib.json"))
     for cond, tg, nm in C.CONDS: L.append(f"| {nm} ({cond}) | {tg * 100:.0f} | {cal[cond]['k']:.3f} | {cal[cond]['median'] * 100:.2f} |")

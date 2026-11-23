@@ -1,4 +1,4 @@
-"""rev1 테스트 1-4: 실제 혼잡 장소의 Neo 2 IQ 데이터 평가 (2026-11-15). 원고 4.1절 테스트 1-4, 5장 표 12.
+"""혼잡 장소 실측 평가(코드 이름 test1_4): 실제 혼잡 장소의 Neo 2 IQ 데이터로 생성 간섭 모델 40개를 평가 (2026-11-15). 원고 6.2절 표 11·12, 보충 자료 S6.
 데이터: data/raw/hackrf/4_neo2_crowded_20261114 (2026-11-14 취득, 압축 원본은 data/HackRF/4_neo2_crowded_20261114/)
   01_수원역_플랫폼(수원역 지하 1층 대합실, 약 300명, 드론·조종기는 SDR 바로 옆), 02_열차_객실(수도권 전철 1호선 객차 안).
   수신 설정은 공원(3_neo2_park)과 같다: HackRF One + SDRangel, 중심 2,449.5 MHz, 20 MS/s, 수신 필터 20 MHz, LNA 16 + VGA 16 dB, 증폭기 끔.
@@ -9,10 +9,10 @@
   (clips 명령의 버스트 측정으로 클립마다 확인한다).
 판정: paper/src/rev1_eval.py 의 baseline 과 같다. 드론 있는 이미지 = 드론 박스의 주파수 범위가 Neo 2 채널(이미지 세로 0.25–0.75)과 IoU 0.3 이상이고
   confidence 가 threshold 이상이면 정탐. 드론 없는 이미지 = 드론 박스(위치 무관)가 하나라도 threshold 이상이면 오탐.
-  threshold 는 모델마다 자기 validation 에서 정한 값(paper/runs/rev1/eval/<이름>/result.json). 테스트 1-4 은 학습·threshold·모델 선택에 쓰지 않는다.
+  threshold 는 모델마다 자기 validation 에서 정한 값(paper/runs/rev1/eval/<이름>/result.json). 혼잡 장소 실측 데이터는 학습·threshold·모델 선택에 쓰지 않는다.
 명령:
   clips   클립 목록과 클립별 버스트 길이·반복 간격(paper/src/neo2_burst_sessions.py 와 같은 방법) → paper/runs/rev1/test1_4/clips.csv
-  eval    모델 50개(이미지는 한 번만 읽어 메모리에 둠) → paper/runs/rev1/eval/<이름>/test1_4.csv(이미지마다 max_conf·max_hit), test1_4.json
+  eval    생성 간섭 모델 40개(이미지는 한 번만 읽어 메모리에 둠) → paper/runs/rev1/eval/<이름>/test1_4.csv(이미지마다 max_conf·max_hit), test1_4.json
           이미 test1_4.json 이 있는 모델은 건너뛴다. 끝나면 REV1_TEST3_DONE
   report  표 → paper/runs/rev1/test1_4/RESULTS_test1_4.md, results_test1_4.json
 사용: python paper/src/rev1_test1_4.py clips | eval | report"""
@@ -27,17 +27,17 @@ RAW = C.ROOT / "data/raw/hackrf/4_neo2_crowded_20261114"; DER = C.ROOT / "data/d
 OUT = C.RUNS / "test1_4"; FC = 2449.5e6
 VENUES = ["01_수원역_플랫폼", "02_열차_객실"]
 # (묶음, 표에 쓰는 이름, 드론 있음)
-GROUPS = [("S_on_fixed", "수원역, 영상 켜짐 (지상, 채널 고정 확인)", True), ("S_on_unconf", "수원역, 영상 켜짐 (지상, 채널 확인 전)", True),
+GROUPS = [("S_on_fixed", "수원역, 비비행 상태 영상 전송 (채널 고정 확인)", True), ("S_on_unconf", "수원역, 비비행 상태 영상 전송 (채널 확인 전)", True),
           ("S_flight", "수원역, 비행 중", True),
-          ("T_on_unrec", "열차, 영상 켜짐 (거리 미기록)", True), ("T_on_6m", "열차, 영상 켜짐 (6 m)", True), ("T_on_10m", "열차, 영상 켜짐 (10 m)", True),
-          ("S_off_before", "수원역, 드론 꺼짐 (영상 켜기 전)", False), ("S_off_after", "수원역, 드론 꺼짐 (영상 끈 뒤)", False),
-          ("T_off_unrec", "열차, 드론 꺼짐 (혼잡도 미기록)", False), ("T_off_quiet", "열차, 드론 꺼짐 (한산한 객실)", False)]
+          ("T_on_unrec", "객차, 비비행 상태 영상 전송 (거리 기록 없음)", True), ("T_on_6m", "객차, 비비행 상태 영상 전송 (6 m)", True), ("T_on_10m", "객차, 비비행 상태 영상 전송 (10 m)", True),
+          ("S_off_before", "수원역, 드론·조종기 전원 꺼짐 (영상 전송 전)", False), ("S_off_after", "수원역, 드론·조종기 전원 꺼짐 (영상 전송 후)", False),
+          ("T_off_unrec", "객차, 드론 전원 꺼짐 (혼잡도 기록 없음)", False), ("T_off_quiet", "객차, 드론 전원 꺼짐 (한산한 객실)", False)]   # 이름은 보충 자료 표 S13 과 같다
 GNAME = {g: n for g, n, _ in GROUPS}; GDRONE = {g: d for g, _, d in GROUPS}
-# 원고 표 13 의 묶음: (이름, 합치는 묶음, 드론 있음)
+# 원고 표 11 의 열: (이름, 합치는 묶음, 드론 있음)
 MERGED = [("rec_S_ground", ["S_on_fixed", "S_on_unconf"], True), ("rec_S_flight", ["S_flight"], True), ("rec_T_ground", ["T_on_unrec", "T_on_6m", "T_on_10m"], True),
           ("fpr_S", ["S_off_before", "S_off_after"], False), ("fpr_T", ["T_off_unrec", "T_off_quiet"], False)]
-MERGED_NAMES = [("rec_S_ground", "recall: 수원역 지상 영상 켜짐 (짧은 버스트)"), ("rec_S_flight", "recall: 수원역 비행 중 (긴 버스트)"),
-                ("rec_T_ground", "recall: 객차 지상 영상 켜짐 (짧은 버스트)"), ("fpr_S", "FPR: 수원역 드론 끔"), ("fpr_T", "FPR: 객차 드론 끔")]
+MERGED_NAMES = [("rec_S_ground", "재현율: 수원역, 비비행 상태, 영상 전송 (짧은 버스트)"), ("rec_S_flight", "재현율: 수원역, 비행 중 (긴 버스트)"),
+                ("rec_T_ground", "재현율: 객차, 비비행 상태, 영상 전송 (짧은 버스트)"), ("fpr_S", "FPR: 수원역, 드론 전원 꺼짐"), ("fpr_T", "FPR: 객차, 드론 전원 꺼짐")]
 
 
 def short(c):
@@ -78,7 +78,7 @@ def _burst(a):
 
 def _occ(a):
     """클립의 20 ms 마다 스펙트럼 점유율(paper/src/occupancy.py 의 계산: 97 × 512 칸, 플로어보다 6 dB 이상 센 칸의 비율, DC ±100 kHz 뺌).
-    플로어 두 가지: 클립 = 그 클립 전체에서 줄마다 하위 10 %(부록 E 의 테스트 1-3 점유율과 같음), 공원 = 공원 무신호 0–1 s(Park02_1, 같은 수신 설정)에서 같은 값.
+    플로어 두 가지: 클립 = 그 클립 전체에서 줄마다 하위 10 %(저간섭 실측 평가의 점유율과 같음), 공원 = 공원 배경 0–1 s(Park02_1, 같은 수신 설정)에서 같은 값.
     전체 = 모든 줄, 채널 밖 = Neo 2 채널(가운데 ±5 MHz)에 여유 1.2배를 둔 ±6 MHz 줄을 뺌."""
     import occupancy as E
     clip, f, pf = a; Ps = np.stack([E.power(x) for x in E.read_iq(f)]); cf = np.percentile(Ps.reshape(-1, E.NF), 10, axis=0)
@@ -152,60 +152,60 @@ def report():
     import rev1_report as RP
     R = []
     for f in sorted((C.RUNS / "eval").glob("*/test1_4.json")):
-        m = re.match(r"^(f\d_[a-z]+)_(c02|c20|c50|c80|cmix)_s(\d)$", f.parent.name)
+        m = re.match(r"^(f\d_[a-z]+)_(c02|c20|c50|c80)_s(\d)$", f.parent.name)
         if m: R.append(dict(name=f.parent.name, fold=m[1], train=m[2], seed=int(m[3]), t3=json.load(open(f))))
     K = pd.read_csv(OUT / "clips.csv"); made = time.strftime("%Y-%m-%d %H:%M"); J = dict(made=made, models=[r["name"] for r in R])
     pos = [(g, n) for g, n, d in GROUPS if d]; neg = [(g, n) for g, n, d in GROUPS if not d]
-    L = ["# rev1 테스트 1-4 결과 (실제 혼잡 장소)", "",
-         f"paper/src/rev1_test1_4.py report 가 {made} 에 만든 표. 평가가 끝난 모델 {len(R)}개. 데이터는 2026-11-14 취득(수원역 지하 1층 대합실, 수도권 전철 1호선 객차).",
-         "정답은 수집자가 적은 클립 단위 장비 상태다(영상 켜짐·비행 클립의 이미지 = 드론 있음, 드론 꺼짐 클립 = 드론 없음). 이미지 한 장 = 20 ms.",
-         "recall = 드론 있는 이미지 중 Neo 2 채널(2,444.5–2,454.5 MHz)에 threshold 이상인 드론 박스가 있는 비율. FPR = 드론 없는 이미지 중 threshold 이상인 드론 박스가 하나라도 있는 비율.",
-         "값은 fold 마다 seed 평균을 낸 뒤 fold 를 같은 무게로 평균한 값. threshold 는 모델마다 자기 validation 에서 정한 값.", "",
-         "## 1. 데이터", "", "**표 1. 묶음별 데이터 양 (클립: 개, 길이: 초, 이미지: 장)**", "",
-         "| 묶음 | 드론 | 클립 | 길이 | 이미지 |", "|---|---|---:|---:|---:|"]
+    L = ["# 혼잡 장소 실측 평가 결과 (생성 간섭 모델)", "",
+         f"paper/src/rev1_test1_4.py report 가 {made} 에 만든 표. 평가가 끝난 생성 간섭 모델 {len(R)}개. 데이터는 2026-11-14 취득(수원역 지하 1층 대합실, 수도권 전철 1호선 객차, 수신 필터 20 MHz).",
+         "정답은 취득자가 적은 IQ 파일 단위 장비 상태다(영상 전송·비행 IQ 파일의 이미지 = 드론 존재, 드론 전원 꺼짐 IQ 파일 = 드론 부재). 이미지 한 장 = 20 ms.",
+         "재현율 = 드론 존재 이미지 중 Neo 2 채널(2,444.5–2,454.5 MHz)에 판정 임계값 이상인 드론 경계 상자가 있는 비율. FPR = 드론 부재 이미지 중 판정 임계값 이상인 드론 경계 상자가 하나라도 있는 비율.",
+         "값은 fold 마다 시드 평균을 낸 뒤 fold 를 같은 무게로 평균한 값(fold 균형 평균). 판정 임계값은 모델마다 자기 검증 데이터에서 정한 값.", "",
+         "## 1. 데이터", "", "**표 1. 취득 조건별 데이터 양 (IQ 파일: 개, 길이: 초, 이미지: 장)**", "",
+         "| 취득 조건 | 드론 | IQ 파일 | 길이 | 이미지 |", "|---|---|---:|---:|---:|"]
     for g, n, d in GROUPS:
-        q = K[K.group == g]; L.append(f"| {n} | {'있음' if d else '없음'} | {len(q)} | {q.seconds.sum():.1f} | {q.n_images.sum()} |")
+        q = K[K.group == g]; L.append(f"| {n} | {'존재' if d else '부재'} | {len(q)} | {q.seconds.sum():.1f} | {q.n_images.sum()} |")
     L.append(f"| 합계 | | {len(K)} | {K.seconds.sum():.1f} | {K.n_images.sum()} |")
     O = pd.read_csv(OUT / "occ_frames.csv").merge(K[["clip", "group"]], on="clip"); J["occupancy"] = {}
-    L += ["", "**표 1-2. 묶음별 스펙트럼 점유율 (단위: %, 20 ms 마다 잰 값의 중앙값, 괄호는 25–75 백분위수)**", "",
-          "97 × 512 칸에서 노이즈 플로어보다 6 dB 이상 센 칸의 비율(DC ±100 kHz 뺌, 부록 E 의 테스트 1-3 점유율과 같은 계산). "
-          "클립 플로어 = 그 클립 전체에서 줄마다 하위 10 %, 공원 플로어 = 공원 무신호 0–1 s 에서 같은 값(같은 수신 설정). 채널 밖 = Neo 2 채널 ±6 MHz 줄을 뺌.", "",
-          "| 묶음 | 전체 (클립 플로어) | 채널 밖 (클립 플로어) | 전체 (공원 플로어) | 채널 밖 (공원 플로어) |", "|---|---:|---:|---:|---:|"]
+    L += ["", "**표 1-2. 취득 조건별 스펙트럼 점유율 (단위: %, 20 ms 마다 잰 값의 중앙값, 괄호는 25–75 백분위수)**", "",
+          "97 × 512 셀에서 잡음 세기보다 6 dB 이상 센 셀의 비율(DC ±100 kHz 뺌, 저간섭 실측 평가의 점유율과 같은 계산). "
+          "IQ 파일 기준 = 그 IQ 파일 전체에서 주파수 구간마다 하위 10 % 값을 잡음 세기로 씀, 공원 기준 = 공원 배경 0–1 s 에서 같은 값(같은 수신 설정). 채널 밖 = Neo 2 채널 ±6 MHz 구간을 뺌.", "",
+          "| 취득 조건 | 전체 (IQ 파일 기준) | 채널 밖 (IQ 파일 기준) | 전체 (공원 기준) | 채널 밖 (공원 기준) |", "|---|---:|---:|---:|---:|"]
     qs = lambda v: f"{100 * v.median():.1f} ({100 * v.quantile(0.25):.1f}–{100 * v.quantile(0.75):.1f})"
     for g, n, _ in GROUPS:
         q = O[O.group == g]; J["occupancy"][g] = {k: float(q[k].median()) for k in ("occ_all", "occ_out", "occ_all_park", "occ_out_park")}
         L.append(f"| {n} | {qs(q.occ_all)} | {qs(q.occ_out)} | {qs(q.occ_all_park)} | {qs(q.occ_out_park)} |")
-    L += ["", "**표 2. 클립별 Neo 2 채널의 버스트 (길이·반복 간격: ms, 가운데 ±5 MHz, 100 ms 마다 20 ms 구간을 잼, 중앙값)**", "",
-          "짧은 버스트 = 길이 약 0.45 ms·간격 약 2.45 ms(공원 01, 실내 ON), 긴 버스트 = 길이 약 2.8 ms·간격 약 4.8 ms(공원 비행 세션). 드론 꺼짐 클립의 값은 간섭 신호를 잰 것이다.", "",
-          "| 묶음 | 클립 | 버스트 길이 | 길이 25 백분위수 | 길이 75 백분위수 | 반복 간격 |", "|---|---|---:|---:|---:|---:|"]
+    L += ["", "**표 2. IQ 파일별 Neo 2 채널의 버스트 (길이·반복 간격: ms, 가운데 ±5 MHz, 100 ms 마다 20 ms 구간을 잼, 중앙값)**", "",
+          "짧은 버스트 = 길이 약 0.45 ms·간격 약 2.45 ms(공원 01, 실내 Neo 2 전원 켜짐), 긴 버스트 = 길이 약 2.8 ms·간격 약 4.8 ms(공원 비행 세션). 드론 전원 꺼짐 IQ 파일의 값은 간섭 신호를 잰 것이다.", "",
+          "| 취득 조건 | IQ 파일 | 버스트 길이 | 길이 25 백분위수 | 길이 75 백분위수 | 반복 간격 |", "|---|---|---:|---:|---:|---:|"]
     f2 = lambda v: "" if pd.isna(v) else f"{v:.2f}"
     for _, r in K.iterrows(): L.append(f"| {GNAME[r.group]} | {short(r['clip'])} | {f2(r.on_ms_median)} | {f2(r.on_ms_q25)} | {f2(r.on_ms_q75)} | {f2(r.period_ms_median)} |")
-    L += ["", "**표 3. 클립별 버스트 측정 가능 구간 (구간: 개, 비율: %)**", "", "켜짐·꺼짐 세기 차이(상위 10 % ÷ 하위 10 %)가 1 dB 미만인 20 ms 구간은 잴 수 없음으로 둔다.", "",
-          "| 묶음 | 클립 | 잰 구간 | 잴 수 있던 구간 | 비율 |", "|---|---|---:|---:|---:|"]
+    L += ["", "**표 3. IQ 파일별 버스트 측정 가능 구간 (구간: 개, 비율: %)**", "", "켜짐·꺼짐 세기 차이(상위 10 % ÷ 하위 10 %)가 1 dB 미만인 20 ms 구간은 잴 수 없음으로 둔다.", "",
+          "| 취득 조건 | IQ 파일 | 잰 구간 | 잴 수 있던 구간 | 비율 |", "|---|---|---:|---:|---:|"]
     for _, r in K.iterrows(): L.append(f"| {GNAME[r.group]} | {short(r['clip'])} | {r.n_segments} | {r.n_measured} | {100 * r.n_measured / max(r.n_segments, 1):.0f} |")
-    L += ["", "**표 4. 클립별 켜짐·꺼짐 세기 차이 (단위: dB, 구간 중앙값)**", "", "| 묶음 | 클립 | 세기 차이 |", "|---|---|---:|"]
+    L += ["", "**표 4. IQ 파일별 켜짐·꺼짐 세기 차이 (단위: dB, 구간 중앙값)**", "", "| 취득 조건 | IQ 파일 | 세기 차이 |", "|---|---|---:|"]
     for _, r in K.iterrows(): L.append(f"| {GNAME[r.group]} | {short(r['clip'])} | {r.on_off_db_median:.1f} |")
     get = lambda r, g: r["t3"]["groups"][g]["rate"]
-    L += ["", "## 2. recall과 FPR", ""]
-    L += RP.table("**표 5. 드론 있는 묶음의 recall (단위: %)**", R, get, pos)
-    L += RP.table("**표 6. 드론 있는 묶음의 recall 범위 (단위: %, 모델 중 가장 낮은 값과 가장 높은 값)**", R, get, pos, rng=True)
-    L += RP.table("**표 7. 드론 없는 묶음의 FPR (단위: %)**", R, get, neg)
-    L += RP.table("**표 8. 드론 없는 묶음의 FPR 범위 (단위: %, 모델 중 가장 낮은 값과 가장 높은 값)**", R, get, neg, rng=True)
+    L += ["", "## 2. 재현율과 FPR", ""]
+    L += RP.table("**표 5. 드론 존재 취득 조건의 재현율 (단위: %)**", R, get, pos)
+    L += RP.table("**표 6. 드론 존재 취득 조건의 재현율 범위 (단위: %, 모델 중 가장 낮은 값과 가장 높은 값)**", R, get, pos, rng=True)
+    L += RP.table("**표 7. 드론 전원 꺼짐 취득 조건의 FPR (단위: %)**", R, get, neg)
+    L += RP.table("**표 8. 드론 전원 꺼짐 취득 조건의 FPR 범위 (단위: %, 모델 중 가장 낮은 값과 가장 높은 값)**", R, get, neg, rng=True)
     for r in R:                                                             # 장소별 AUC: 드론 있는 이미지의 max_hit 대 드론 없는 이미지의 max_conf
         T3 = pd.read_csv(C.RUNS / "eval" / r["name"] / "test1_4.csv"); r["auc"] = {}
         for v in ("S", "T"):
             p = T3[T3.group.isin([g for g, _, d in GROUPS if d and g[0] == v])].max_hit.to_numpy(); n = T3[T3.group.isin([g for g, _, d in GROUPS if not d and g[0] == v])].max_conf.to_numpy()
             pa = T3[T3.group.isin([g for g, _, d in GROUPS if d and g[0] == v])].max_conf.to_numpy()
             r["auc"][v] = auc(p, n); r["auc"][v + "_any"] = auc(pa, n)
-        th = r["t3"]["threshold"]; r["merged"] = {}                         # 원고 표 13 단위로 묶은 값(이미지 수로 가중)
+        th = r["t3"]["threshold"]; r["merged"] = {}                         # 원고 표 11 단위로 묶은 값(이미지 수로 가중)
         for k, gs, dr in MERGED:
             q = T3[T3.group.isin(gs)]; r["merged"][k] = float(((q.max_hit if dr else q.max_conf) >= th).mean())
-    L += RP.table("**표 0. 원고 표 13 용: 묶음을 합친 recall과 FPR (단위: %, fold 균형 평균)**", R, lambda r, k: r["merged"][k], [(k, n) for k, n in MERGED_NAMES])
-    L += RP.table("**표 0-2. 표 0 의 범위 (단위: %, 모델 중 가장 낮은 값과 가장 높은 값)**", R, lambda r, k: r["merged"][k], [(k, n) for k, n in MERGED_NAMES], rng=True)
+    L += RP.table("**표 0. 원고 표 11: 취득 조건을 합친 재현율과 FPR (단위: %, fold 균형 평균)**", R, lambda r, k: r["merged"][k], [(k, n) for k, n in MERGED_NAMES])
+    L += RP.table("**표 0-2. 표 0의 범위 (단위: %, 모델 중 가장 낮은 값과 가장 높은 값)**", R, lambda r, k: r["merged"][k], [(k, n) for k, n in MERGED_NAMES], rng=True)
     J["merged"] = {tc: {k: (lambda x: None if x is None else dict(mean=x[0], lo=x[1], hi=x[2], n=x[3]))(RP.agg(R, tc, lambda r, k=k: r["merged"][k])) for k, _, _ in MERGED} for tc, _ in RP.TRAIN}
-    # IQ 파일 단위 bootstrap(2,000회, 원고 4.2절): 묶음마다 IQ 파일을 복원 추출 → 이미지 수 가중 비율 → 모델 fold 균형 평균 → 2.5·97.5 백분위수
+    # IQ 파일 단위 bootstrap(2,000회, 원고 5.4절): 묶음마다 IQ 파일을 복원 추출 → 이미지 수 가중 비율 → 모델 fold 균형 평균 → 2.5·97.5 백분위수
     nimg = dict(zip(K["clip"], K.n_images)); rng = np.random.default_rng(0); J["bootstrap"] = {}
-    L += ["**표 0-3. 표 0 의 IQ 파일 단위 bootstrap 95 % 신뢰구간 (단위: %, 2,000회)**", "", "묶음마다 IQ 파일을 복원 추출하고, 같은 표본을 모델 모두에 써서 fold 균형 평균을 다시 낸다.", "",
+    L += ["**표 0-3. 표 0의 IQ 파일 단위 부트스트랩 95 % 신뢰구간 (단위: %, 2,000회)**", "", "취득 조건마다 IQ 파일을 복원 추출하고, 같은 표본을 모델 모두에 써서 fold 균형 평균을 다시 낸다.", "",
           "| 학습 조건 | " + " | ".join(n for _, n in MERGED_NAMES) + " |", "|---|" + "---:|" * len(MERGED)]
     for tc, tn in RP.TRAIN:
         q = [r for r in R if r["train"] == tc]
@@ -221,11 +221,11 @@ def report():
             lo, hi = np.percentile(fb, [2.5, 97.5]); cells.append(f"{100 * lo:.1f}–{100 * hi:.1f}"); J["bootstrap"].setdefault(tc, {})[k] = [float(lo), float(hi)]
         L.append(f"| {tn} | " + " | ".join(cells) + " |")
     L.append("")
-    VEN = [("S", "수원역 대합실"), ("T", "열차 객차")]; J["auc"] = {}
-    for k, title, expl in (("", "**표 8-2. 장소별 AUC, recall·FPR 정의 그대로 (단위 없음, 0.5 = 구분 못 함, 1 = 완전히 구분, fold 균형 평균, 괄호는 범위)**",
-                            "드론 있는 이미지의 점수 = Neo 2 채널에 맞는 드론 박스의 최고 confidence, 드론 없는 이미지의 점수 = 위치와 상관없는 드론 박스의 최고 confidence. threshold 를 바꿔 가며 그린 recall·FPR 곡선 아래 넓이와 같다."),
+    VEN = [("S", "수원역 대합실"), ("T", "전철 1호선 객차")]; J["auc"] = {}
+    for k, title, expl in (("", "**표 8-2. 장소별 AUC, 재현율·FPR 정의 그대로 (단위 없음, 0.5 = 구분 능력 없음, 1 = 완전한 구분, fold 균형 평균, 괄호는 범위)**",
+                            "드론 존재 이미지의 점수 = Neo 2 채널에 맞는 드론 경계 상자의 최고 신뢰도, 드론 부재 이미지의 점수 = 위치와 상관없는 드론 경계 상자의 최고 신뢰도. 판정 임계값을 바꿔 가며 그린 재현율·FPR 곡선 아래 넓이와 같다."),
                            ("_any", "**표 8-3. 장소별 AUC, 양쪽 모두 위치와 상관없는 점수 (단위 없음, fold 균형 평균, 괄호는 범위)**",
-                            "두 이미지 모두 위치와 상관없는 드론 박스의 최고 confidence 로 비교한다. 모델 출력이 드론 유무에 반응하는지만 본다.")):
+                            "두 이미지 모두 위치와 상관없는 드론 경계 상자의 최고 신뢰도로 비교한다. 모델 출력이 드론 유무에 반응하는지만 본다.")):
         L += [title, "", expl, "", "| 학습 조건 | " + " | ".join(n for _, n in VEN) + " | 모델 수 |", "|---|---:|---:|---:|"]
         for tc, tn in RP.TRAIN:
             a = [RP.agg(R, tc, lambda r, v=v: r["auc"][v + k]) for v, _ in VEN]
@@ -234,17 +234,17 @@ def report():
             L.append(f"| {tn} | " + " | ".join(f"{x[0]:.3f} ({x[1]:.3f}–{x[2]:.3f})" for x in a) + f" | {a[0][3]} |")
         L.append("")
     ga = lambda r, g: r["t3"]["groups"][g]["any_box"]
-    L += RP.table("**표 9. 드론 있는 묶음에서 위치와 상관없이 드론 박스가 하나라도 threshold 이상인 이미지의 비율 (단위: %, 표 5 와 비교용)**", R, ga, pos)
-    L += ["## 3. 학습에서 뺀 계열별 결과", "", "fold 마다 seed 2개의 평균. 행 = 학습에서 뺀 계열(그 계열의 기종은 train·validation 에 없음).", ""]
+    L += RP.table("**표 9. 드론 존재 취득 조건에서 위치와 상관없이 드론 경계 상자가 하나라도 판정 임계값 이상인 이미지의 비율 (단위: %, 표 5와 비교용)**", R, ga, pos)
+    L += ["## 3. 학습에서 뺀 계열별 결과", "", "fold 마다 시드 2개의 평균. 행 = 학습에서 뺀 계열(그 계열의 기종은 학습·검증 데이터에 없음).", ""]
     for tc, tn in RP.TRAIN:
-        L += [f"**표 10-{tc}. {tn} 모델: 학습에서 뺀 계열별 recall과 FPR (단위: %)**", "",
-              "| 학습에서 뺀 계열 | " + " | ".join(f"recall: {n}" for _, n in pos) + " | " + " | ".join(f"FPR: {n}" for _, n in neg) + " |", "|---|" + "---:|" * (len(pos) + len(neg))]
+        L += [f"**표 10-{tc}. {tn} 조건 모델: 학습에서 뺀 계열별 재현율과 FPR (단위: %)**", "",
+              "| 학습에서 뺀 계열 | " + " | ".join(f"재현율: {n}" for _, n in pos) + " | " + " | ".join(f"FPR: {n}" for _, n in neg) + " |", "|---|" + "---:|" * (len(pos) + len(neg))]
         for fk, fn in RP.FOLDS:
             q = [r for r in R if r["train"] == tc and r["fold"] == fk]
             if q: L.append(f"| {fn} | " + " | ".join(f"{100 * np.mean([get(r, g) for r in q]):.1f}" for g, _, _ in GROUPS) + " |")
         L.append("")
-    L += ["## 4. 클립별 결과", "", "**표 11. 클립별 recall(드론 있음)과 FPR(드론 없음) (단위: %, fold 균형 평균)**", "",
-          "| 묶음 | 클립 | " + " | ".join(tn for _, tn in RP.TRAIN) + " |", "|---|---|" + "---:|" * len(RP.TRAIN)]
+    L += ["## 4. IQ 파일별 결과", "", "**표 11. IQ 파일별 재현율(드론 존재)과 FPR(드론 부재) (단위: %, fold 균형 평균, 열 = 학습 조건)**", "",
+          "| 취득 조건 | IQ 파일 | " + " | ".join(tn for _, tn in RP.TRAIN) + " |", "|---|---|" + "---:|" * len(RP.TRAIN)]
     J["clips"] = {}
     for _, k in K.iterrows():
         a = [RP.agg(R, tc, lambda r, c=k["clip"], g=k["group"]: r["t3"]["groups"][g]["clips"].get(c)) for tc, _ in RP.TRAIN]
