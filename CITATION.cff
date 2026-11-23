@@ -8,8 +8,8 @@ authors:
     affiliation: Independent researcher
 repository-code: "https://github.com/sinkei9456/rf-drone-detector"
 license: AGPL-3.0
-version: 2.0.0
-date-released: 2026-11-18
+version: 2.1.0
+date-released: 2026-11-24
 keywords:
   - drone detection
   - counter-UAS
@@ -25,15 +25,14 @@ abstract: >-
   becomes a 640 x 640 spectrogram, and a YOLO26s detector draws a box around the
   drone video link. Training images are synthesized at the IQ level from 303
   drone signal segments of 20 drone models in four public datasets, so no image
-  is labeled by hand. Version 2 holds the experiments of the paper "Synthetic
+  is labeled by hand. Version 2.1 holds the experiments of the paper "Synthetic
   Drone Signals on Real Background IQ Data for Low-Cost SDR Drone Detection in
-  Crowded Environments". Fifty models trained on park noise with generated Wi-Fi
-  and Bluetooth bursts (four interference densities and a mix, five folds by
-  product family, two seeds) flagged 98-100 % of the drone-off images at a
+  Crowded Environments". Forty models trained on park noise with generated Wi-Fi
+  and Bluetooth bursts (four interference densities, five folds by product
+  family, two seeds) flagged 98-100 % of the drone-off images at a
   station concourse and in a subway car as drones. Models trained on IQ data
   recorded with the drone off at one of these sites, with the same drone
   signals, reached 86.8-93.7 % recall and 2.5 % and 22.5 % false positive rate
-  at the other site, for a DJI Neo 2 that was never used for training. A control
-  model with only the background replaced by park noise and generated
-  interference had a false positive rate of 94.1-100 %. The hackathon version
+  at the other site, for a DJI Neo 2 that was never used for training. All HackRF
+  data were recorded with the 20 MHz receive filter. The hackathon version
   (v1.1) is kept in the folder v1/.

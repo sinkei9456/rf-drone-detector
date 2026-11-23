@@ -1,422 +1,422 @@
-# rev1 data leakage 점검
+# 생성 간섭 모델의 데이터 누출(data leakage) 점검
 
 **결과: 모두 통과** (검사 404개)
 
 ## Mini fold (f1_mini)
 
-- 통과: 대조군 테스트 1: 드론 기종이 모두 테스트 fold 기종 (5개 기종, IQ 파일 42개)
-- 통과: 대조군 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f1_mini_c02_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 2 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (5개 기종, IQ 파일 42개)
+- 통과: 2 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f1_mini_c02_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f1_mini_c02_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f1_mini_c02_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f1_mini_c02_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f1_mini_c02_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f1_mini_c02_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f1_mini_c02_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f1_mini_c02_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f1_mini_c02_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f1_mini_c02_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f1_mini_c02_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f1_mini_c02_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f1_mini_c02_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f1_mini_c02_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f1_mini_c02_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f1_mini_c02_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f1_mini_c02_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f1_mini_c02_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f1_mini_c02_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f1_mini_c02_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f1_mini_c02_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f1_mini_c02_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f1_mini_c02_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f1_mini_c02_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f1_mini_c02_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f1_mini_c02_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f1_mini_c02_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f1_mini_c02_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f1_mini_c02_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 약 테스트 1: 드론 기종이 모두 테스트 fold 기종 (5개 기종, IQ 파일 42개)
-- 통과: 약 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f1_mini_c20_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 20 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (5개 기종, IQ 파일 42개)
+- 통과: 20 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f1_mini_c20_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f1_mini_c20_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f1_mini_c20_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f1_mini_c20_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f1_mini_c20_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f1_mini_c20_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f1_mini_c20_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f1_mini_c20_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f1_mini_c20_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f1_mini_c20_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f1_mini_c20_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f1_mini_c20_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f1_mini_c20_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f1_mini_c20_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f1_mini_c20_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f1_mini_c20_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f1_mini_c20_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f1_mini_c20_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f1_mini_c20_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f1_mini_c20_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f1_mini_c20_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f1_mini_c20_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f1_mini_c20_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f1_mini_c20_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f1_mini_c20_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f1_mini_c20_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f1_mini_c20_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f1_mini_c20_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f1_mini_c20_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 중 테스트 1: 드론 기종이 모두 테스트 fold 기종 (5개 기종, IQ 파일 42개)
-- 통과: 중 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f1_mini_c50_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 50 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (5개 기종, IQ 파일 42개)
+- 통과: 50 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f1_mini_c50_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f1_mini_c50_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f1_mini_c50_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f1_mini_c50_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f1_mini_c50_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f1_mini_c50_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f1_mini_c50_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f1_mini_c50_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f1_mini_c50_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f1_mini_c50_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f1_mini_c50_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f1_mini_c50_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f1_mini_c50_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f1_mini_c50_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f1_mini_c50_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f1_mini_c50_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f1_mini_c50_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f1_mini_c50_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f1_mini_c50_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f1_mini_c50_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f1_mini_c50_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f1_mini_c50_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f1_mini_c50_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f1_mini_c50_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f1_mini_c50_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f1_mini_c50_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f1_mini_c50_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f1_mini_c50_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f1_mini_c50_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 강 테스트 1: 드론 기종이 모두 테스트 fold 기종 (5개 기종, IQ 파일 42개)
-- 통과: 강 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f1_mini_c80_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 80 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (5개 기종, IQ 파일 42개)
+- 통과: 80 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f1_mini_c80_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f1_mini_c80_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f1_mini_c80_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f1_mini_c80_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f1_mini_c80_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f1_mini_c80_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f1_mini_c80_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f1_mini_c80_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f1_mini_c80_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f1_mini_c80_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f1_mini_c80_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f1_mini_c80_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f1_mini_c80_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f1_mini_c80_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f1_mini_c80_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f1_mini_c80_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f1_mini_c80_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f1_mini_c80_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f1_mini_c80_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f1_mini_c80_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f1_mini_c80_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f1_mini_c80_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f1_mini_c80_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f1_mini_c80_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f1_mini_c80_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f1_mini_c80_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f1_mini_c80_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f1_mini_c80_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f1_mini_c80_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
 
 ## Air fold (f2_air)
 
-- 통과: 대조군 테스트 1: 드론 기종이 모두 테스트 fold 기종 (4개 기종, IQ 파일 36개)
-- 통과: 대조군 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f2_air_c02_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 2 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (4개 기종, IQ 파일 36개)
+- 통과: 2 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f2_air_c02_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f2_air_c02_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f2_air_c02_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f2_air_c02_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f2_air_c02_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f2_air_c02_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f2_air_c02_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f2_air_c02_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f2_air_c02_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f2_air_c02_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f2_air_c02_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f2_air_c02_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f2_air_c02_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f2_air_c02_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f2_air_c02_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f2_air_c02_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f2_air_c02_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f2_air_c02_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f2_air_c02_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f2_air_c02_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f2_air_c02_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f2_air_c02_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f2_air_c02_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f2_air_c02_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f2_air_c02_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f2_air_c02_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f2_air_c02_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f2_air_c02_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f2_air_c02_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 약 테스트 1: 드론 기종이 모두 테스트 fold 기종 (4개 기종, IQ 파일 36개)
-- 통과: 약 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f2_air_c20_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 20 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (4개 기종, IQ 파일 36개)
+- 통과: 20 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f2_air_c20_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f2_air_c20_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f2_air_c20_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f2_air_c20_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f2_air_c20_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f2_air_c20_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f2_air_c20_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f2_air_c20_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f2_air_c20_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f2_air_c20_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f2_air_c20_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f2_air_c20_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f2_air_c20_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f2_air_c20_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f2_air_c20_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f2_air_c20_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f2_air_c20_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f2_air_c20_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f2_air_c20_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f2_air_c20_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f2_air_c20_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f2_air_c20_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f2_air_c20_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f2_air_c20_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f2_air_c20_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f2_air_c20_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f2_air_c20_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f2_air_c20_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f2_air_c20_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 중 테스트 1: 드론 기종이 모두 테스트 fold 기종 (4개 기종, IQ 파일 36개)
-- 통과: 중 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f2_air_c50_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 50 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (4개 기종, IQ 파일 36개)
+- 통과: 50 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f2_air_c50_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f2_air_c50_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f2_air_c50_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f2_air_c50_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f2_air_c50_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f2_air_c50_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f2_air_c50_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f2_air_c50_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f2_air_c50_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f2_air_c50_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f2_air_c50_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f2_air_c50_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f2_air_c50_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f2_air_c50_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f2_air_c50_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f2_air_c50_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f2_air_c50_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f2_air_c50_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f2_air_c50_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f2_air_c50_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f2_air_c50_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f2_air_c50_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f2_air_c50_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f2_air_c50_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f2_air_c50_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f2_air_c50_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f2_air_c50_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f2_air_c50_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f2_air_c50_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 강 테스트 1: 드론 기종이 모두 테스트 fold 기종 (4개 기종, IQ 파일 36개)
-- 통과: 강 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f2_air_c80_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 80 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (4개 기종, IQ 파일 36개)
+- 통과: 80 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f2_air_c80_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f2_air_c80_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f2_air_c80_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f2_air_c80_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f2_air_c80_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f2_air_c80_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f2_air_c80_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f2_air_c80_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f2_air_c80_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f2_air_c80_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f2_air_c80_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f2_air_c80_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f2_air_c80_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f2_air_c80_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f2_air_c80_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f2_air_c80_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f2_air_c80_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f2_air_c80_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f2_air_c80_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f2_air_c80_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f2_air_c80_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f2_air_c80_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f2_air_c80_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f2_air_c80_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f2_air_c80_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f2_air_c80_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f2_air_c80_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f2_air_c80_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f2_air_c80_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
 
 ## Mavic fold (f3_mavic)
 
-- 통과: 대조군 테스트 1: 드론 기종이 모두 테스트 fold 기종 (4개 기종, IQ 파일 14개)
-- 통과: 대조군 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f3_mavic_c02_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 2 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (4개 기종, IQ 파일 14개)
+- 통과: 2 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f3_mavic_c02_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f3_mavic_c02_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f3_mavic_c02_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f3_mavic_c02_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f3_mavic_c02_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f3_mavic_c02_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f3_mavic_c02_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f3_mavic_c02_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f3_mavic_c02_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f3_mavic_c02_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f3_mavic_c02_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f3_mavic_c02_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f3_mavic_c02_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f3_mavic_c02_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f3_mavic_c02_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f3_mavic_c02_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f3_mavic_c02_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f3_mavic_c02_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f3_mavic_c02_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f3_mavic_c02_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f3_mavic_c02_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f3_mavic_c02_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f3_mavic_c02_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f3_mavic_c02_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f3_mavic_c02_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f3_mavic_c02_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f3_mavic_c02_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f3_mavic_c02_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f3_mavic_c02_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 약 테스트 1: 드론 기종이 모두 테스트 fold 기종 (4개 기종, IQ 파일 14개)
-- 통과: 약 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f3_mavic_c20_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 20 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (4개 기종, IQ 파일 14개)
+- 통과: 20 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f3_mavic_c20_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f3_mavic_c20_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f3_mavic_c20_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f3_mavic_c20_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f3_mavic_c20_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f3_mavic_c20_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f3_mavic_c20_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f3_mavic_c20_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f3_mavic_c20_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f3_mavic_c20_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f3_mavic_c20_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f3_mavic_c20_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f3_mavic_c20_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f3_mavic_c20_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f3_mavic_c20_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f3_mavic_c20_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f3_mavic_c20_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f3_mavic_c20_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f3_mavic_c20_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f3_mavic_c20_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f3_mavic_c20_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f3_mavic_c20_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f3_mavic_c20_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f3_mavic_c20_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f3_mavic_c20_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f3_mavic_c20_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f3_mavic_c20_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f3_mavic_c20_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f3_mavic_c20_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 중 테스트 1: 드론 기종이 모두 테스트 fold 기종 (4개 기종, IQ 파일 14개)
-- 통과: 중 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f3_mavic_c50_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 50 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (4개 기종, IQ 파일 14개)
+- 통과: 50 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f3_mavic_c50_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f3_mavic_c50_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f3_mavic_c50_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f3_mavic_c50_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f3_mavic_c50_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f3_mavic_c50_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f3_mavic_c50_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f3_mavic_c50_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f3_mavic_c50_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f3_mavic_c50_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f3_mavic_c50_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f3_mavic_c50_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f3_mavic_c50_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f3_mavic_c50_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f3_mavic_c50_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f3_mavic_c50_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f3_mavic_c50_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f3_mavic_c50_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f3_mavic_c50_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f3_mavic_c50_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f3_mavic_c50_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f3_mavic_c50_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f3_mavic_c50_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f3_mavic_c50_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f3_mavic_c50_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f3_mavic_c50_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f3_mavic_c50_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f3_mavic_c50_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f3_mavic_c50_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 강 테스트 1: 드론 기종이 모두 테스트 fold 기종 (4개 기종, IQ 파일 14개)
-- 통과: 강 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f3_mavic_c80_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 80 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (4개 기종, IQ 파일 14개)
+- 통과: 80 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f3_mavic_c80_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f3_mavic_c80_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f3_mavic_c80_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f3_mavic_c80_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f3_mavic_c80_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f3_mavic_c80_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f3_mavic_c80_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f3_mavic_c80_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f3_mavic_c80_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f3_mavic_c80_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f3_mavic_c80_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f3_mavic_c80_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f3_mavic_c80_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f3_mavic_c80_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f3_mavic_c80_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f3_mavic_c80_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f3_mavic_c80_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f3_mavic_c80_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f3_mavic_c80_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f3_mavic_c80_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f3_mavic_c80_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f3_mavic_c80_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f3_mavic_c80_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f3_mavic_c80_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f3_mavic_c80_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f3_mavic_c80_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f3_mavic_c80_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f3_mavic_c80_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f3_mavic_c80_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
 
 ## 전문가용 fold (f4_pro)
 
-- 통과: 대조군 테스트 1: 드론 기종이 모두 테스트 fold 기종 (4개 기종, IQ 파일 18개)
-- 통과: 대조군 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f4_pro_c02_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 2 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (4개 기종, IQ 파일 18개)
+- 통과: 2 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f4_pro_c02_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f4_pro_c02_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f4_pro_c02_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f4_pro_c02_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f4_pro_c02_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f4_pro_c02_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f4_pro_c02_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f4_pro_c02_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f4_pro_c02_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f4_pro_c02_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f4_pro_c02_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f4_pro_c02_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f4_pro_c02_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f4_pro_c02_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f4_pro_c02_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f4_pro_c02_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f4_pro_c02_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f4_pro_c02_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f4_pro_c02_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f4_pro_c02_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f4_pro_c02_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f4_pro_c02_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f4_pro_c02_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f4_pro_c02_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f4_pro_c02_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f4_pro_c02_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f4_pro_c02_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f4_pro_c02_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f4_pro_c02_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 약 테스트 1: 드론 기종이 모두 테스트 fold 기종 (4개 기종, IQ 파일 18개)
-- 통과: 약 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f4_pro_c20_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 20 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (4개 기종, IQ 파일 18개)
+- 통과: 20 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f4_pro_c20_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f4_pro_c20_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f4_pro_c20_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f4_pro_c20_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f4_pro_c20_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f4_pro_c20_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f4_pro_c20_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f4_pro_c20_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f4_pro_c20_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f4_pro_c20_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f4_pro_c20_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f4_pro_c20_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f4_pro_c20_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f4_pro_c20_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f4_pro_c20_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f4_pro_c20_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f4_pro_c20_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f4_pro_c20_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f4_pro_c20_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f4_pro_c20_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f4_pro_c20_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f4_pro_c20_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f4_pro_c20_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f4_pro_c20_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f4_pro_c20_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f4_pro_c20_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f4_pro_c20_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f4_pro_c20_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f4_pro_c20_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 중 테스트 1: 드론 기종이 모두 테스트 fold 기종 (4개 기종, IQ 파일 18개)
-- 통과: 중 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f4_pro_c50_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 50 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (4개 기종, IQ 파일 18개)
+- 통과: 50 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f4_pro_c50_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f4_pro_c50_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f4_pro_c50_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f4_pro_c50_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f4_pro_c50_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f4_pro_c50_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f4_pro_c50_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f4_pro_c50_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f4_pro_c50_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f4_pro_c50_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f4_pro_c50_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f4_pro_c50_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f4_pro_c50_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f4_pro_c50_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f4_pro_c50_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f4_pro_c50_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f4_pro_c50_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f4_pro_c50_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f4_pro_c50_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f4_pro_c50_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f4_pro_c50_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f4_pro_c50_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f4_pro_c50_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f4_pro_c50_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f4_pro_c50_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f4_pro_c50_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f4_pro_c50_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f4_pro_c50_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f4_pro_c50_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 강 테스트 1: 드론 기종이 모두 테스트 fold 기종 (4개 기종, IQ 파일 18개)
-- 통과: 강 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f4_pro_c80_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 80 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (4개 기종, IQ 파일 18개)
+- 통과: 80 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f4_pro_c80_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f4_pro_c80_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f4_pro_c80_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f4_pro_c80_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f4_pro_c80_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f4_pro_c80_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f4_pro_c80_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f4_pro_c80_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f4_pro_c80_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f4_pro_c80_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f4_pro_c80_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f4_pro_c80_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f4_pro_c80_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f4_pro_c80_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f4_pro_c80_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f4_pro_c80_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f4_pro_c80_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f4_pro_c80_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f4_pro_c80_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f4_pro_c80_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f4_pro_c80_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f4_pro_c80_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f4_pro_c80_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f4_pro_c80_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f4_pro_c80_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f4_pro_c80_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f4_pro_c80_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f4_pro_c80_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f4_pro_c80_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
 
 ## 타 제조사 fold (f5_other)
 
-- 통과: 대조군 테스트 1: 드론 기종이 모두 테스트 fold 기종 (3개 기종, IQ 파일 12개)
-- 통과: 대조군 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f5_other_c02_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 2 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (3개 기종, IQ 파일 12개)
+- 통과: 2 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f5_other_c02_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f5_other_c02_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f5_other_c02_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f5_other_c02_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f5_other_c02_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f5_other_c02_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f5_other_c02_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f5_other_c02_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f5_other_c02_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f5_other_c02_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f5_other_c02_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f5_other_c02_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f5_other_c02_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f5_other_c02_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f5_other_c02_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f5_other_c02_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f5_other_c02_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f5_other_c02_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f5_other_c02_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f5_other_c02_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f5_other_c02_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f5_other_c02_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f5_other_c02_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f5_other_c02_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f5_other_c02_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f5_other_c02_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f5_other_c02_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f5_other_c02_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f5_other_c02_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 약 테스트 1: 드론 기종이 모두 테스트 fold 기종 (3개 기종, IQ 파일 12개)
-- 통과: 약 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f5_other_c20_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 20 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (3개 기종, IQ 파일 12개)
+- 통과: 20 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f5_other_c20_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f5_other_c20_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f5_other_c20_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f5_other_c20_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f5_other_c20_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f5_other_c20_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f5_other_c20_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f5_other_c20_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f5_other_c20_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f5_other_c20_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f5_other_c20_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f5_other_c20_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f5_other_c20_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f5_other_c20_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f5_other_c20_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f5_other_c20_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f5_other_c20_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f5_other_c20_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f5_other_c20_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f5_other_c20_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f5_other_c20_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f5_other_c20_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f5_other_c20_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f5_other_c20_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f5_other_c20_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f5_other_c20_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f5_other_c20_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f5_other_c20_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f5_other_c20_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 중 테스트 1: 드론 기종이 모두 테스트 fold 기종 (3개 기종, IQ 파일 12개)
-- 통과: 중 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f5_other_c50_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 50 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (3개 기종, IQ 파일 12개)
+- 통과: 50 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f5_other_c50_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f5_other_c50_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f5_other_c50_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f5_other_c50_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f5_other_c50_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f5_other_c50_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f5_other_c50_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f5_other_c50_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f5_other_c50_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f5_other_c50_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f5_other_c50_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f5_other_c50_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f5_other_c50_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f5_other_c50_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f5_other_c50_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f5_other_c50_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f5_other_c50_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f5_other_c50_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f5_other_c50_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f5_other_c50_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f5_other_c50_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f5_other_c50_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f5_other_c50_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f5_other_c50_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f5_other_c50_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f5_other_c50_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f5_other_c50_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f5_other_c50_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f5_other_c50_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 강 테스트 1: 드론 기종이 모두 테스트 fold 기종 (3개 기종, IQ 파일 12개)
-- 통과: 강 테스트 1: 배경 노이즈는 Park02_3만
-- 통과: f5_other_c80_s1: train·validation 에 테스트 fold 기종 없음
+- 통과: 80 % 조건 미학습 계열 평가: 드론 기종이 모두 평가 fold 기종 (3개 기종, IQ 파일 12개)
+- 통과: 80 % 조건 미학습 계열 평가: 배경 잡음은 Park02_3만
+- 통과: f5_other_c80_s1: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f5_other_c80_s1: Neo 2 드론 신호 세그먼트 없음
-- 통과: f5_other_c80_s1: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f5_other_c80_s1: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f5_other_c80_s1: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f5_other_c80_s1: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f5_other_c80_s1: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f5_other_c80_s1: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f5_other_c80_s1: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f5_other_c80_s1: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f5_other_c80_s1: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f5_other_c80_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f5_other_c80_s1: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f5_other_c80_s1: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: f5_other_c80_s2: train·validation 에 테스트 fold 기종 없음
+- 통과: f5_other_c80_s2: 학습·검증 데이터에 평가 fold 기종 없음
 - 통과: f5_other_c80_s2: Neo 2 드론 신호 세그먼트 없음
-- 통과: f5_other_c80_s2: train·validation 에 함께 들어간 IQ 파일 0개
-- 통과: f5_other_c80_s2: 테스트 1 의 IQ 파일이 train·validation 에 0개
-- 통과: f5_other_c80_s2: 배경 노이즈 train Park02_1, validation Park02_2
-- 통과: f5_other_c80_s2: 테스트 이미지와 같은 난수 씨앗 0개
+- 통과: f5_other_c80_s2: 학습·검증 데이터에 함께 들어간 IQ 파일 0개
+- 통과: f5_other_c80_s2: 미학습 계열 평가의 IQ 파일이 학습·검증 데이터에 0개
+- 통과: f5_other_c80_s2: 배경 잡음 train Park02_1, validation Park02_2
+- 통과: f5_other_c80_s2: 평가 이미지와 같은 난수 씨앗 0개
 - 통과: f5_other_c80_s2: 목록 train 6000장, validation 600장, 겹침 0장
-- 통과: f5_other_c80_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·테스트 이미지 없음)
+- 통과: f5_other_c80_s2: 목록에 이 데이터셋의 합성 이미지만 있음(실측·평가 이미지 없음)
 - 통과: f5_other_c80_s2: 목록의 이미지·라벨 파일 모두 있음 (없는 것 0개)
-- 통과: 대조군 드론 없는 테스트 이미지: 드론 0개, 배경 노이즈 Park02_3만
-- 통과: 약 드론 없는 테스트 이미지: 드론 0개, 배경 노이즈 Park02_3만
-- 통과: 중 드론 없는 테스트 이미지: 드론 0개, 배경 노이즈 Park02_3만
-- 통과: 강 드론 없는 테스트 이미지: 드론 0개, 배경 노이즈 Park02_3만
+- 통과: 2 % 조건 드론 없는 평가 이미지: 드론 0개, 배경 잡음 Park02_3만
+- 통과: 20 % 조건 드론 없는 평가 이미지: 드론 0개, 배경 잡음 Park02_3만
+- 통과: 50 % 조건 드론 없는 평가 이미지: 드론 0개, 배경 잡음 Park02_3만
+- 통과: 80 % 조건 드론 없는 평가 이미지: 드론 0개, 배경 잡음 Park02_3만

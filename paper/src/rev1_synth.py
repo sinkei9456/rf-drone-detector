@@ -70,7 +70,7 @@ def occupancy(x, bg, dboxes):
     for _, t0, t1, lo, hi in dboxes:
         r = (E.FR + E.FS / E.NF / 2 > lo) & (E.FR - E.FS / E.NF / 2 < hi)
         keep[int(np.floor(t0 / S.WIN * 97)):int(np.ceil(t1 / S.WIN * 97)), r] = False
-    return float(on[keep].mean()) if keep.mean() >= 0.05 else None             # 드론 박스가 창을 거의 다 덮으면(남은 칸 5 % 미만) 잴 수 없음 → 중앙값에서 뺌
+    return float(on[keep].mean()) if keep.mean() >= 0.05 else None             # 드론 경계 상자가 이미지를 거의 다 덮으면(나머지 영역 5 % 미만) 잴 수 없음 → 중앙값에서 뺌
 
 
 def write(out, stem, x, boxes):
@@ -91,7 +91,7 @@ def calib(n=1500, workers=16):
     pool = C.split_pieces(C.FOLDS[0][0])["train"]; res = {}
     with Pool(workers, initializer=_init) as P:
         med = lambda k: float(np.median([o for o in P.map(_occ_job, [(i, k, pool) for i in range(n)], chunksize=8) if o is not None]))
-        n_na = sum(o is None for o in P.map(_occ_job, [(i, 1.0, pool) for i in range(n)], chunksize=8)); print(f"잴 수 없는 이미지(드론 박스가 창을 거의 다 덮음) {n_na}/{n}장", flush=True)
+        n_na = sum(o is None for o in P.map(_occ_job, [(i, 1.0, pool) for i in range(n)], chunksize=8)); print(f"잴 수 없는 이미지(드론 경계 상자가 이미지를 거의 다 덮음) {n_na}/{n}장", flush=True)
         for cond, tg, name in C.CONDS:
             lo, hi = 0.0, 2.0; best = (9.0, None, None)                         # (|중앙값 − 목표|, k, 중앙값) 중 목표에 가장 가까운 것
             while med(hi) < tg: lo, hi = hi, hi * 2; assert hi < 200, "목표에 닿지 않음"
@@ -153,7 +153,7 @@ def summary():
          "**표 1. 간섭 밀도 배율 (calib.json, fold 1 train 1,500장으로 맞춤)**", "", "| 조건 | 목표 (%) | 배율 k | 맞춘 중앙값 (%) |", "|---|---:|---:|---:|"]
     cal = json.load(open(C.RUNS / "calib.json"))
     for cond, tg, nm in C.CONDS: L.append(f"| {nm} ({cond}) | {tg * 100:.0f} | {cal[cond]['k']:.3f} | {cal[cond]['median'] * 100:.2f} |")
-    L += ["", "**표 2. 데이터셋별 이미지 수(장)와 스펙트럼 점유율 중앙값(%)** (잴 수 없는 이미지 = 드론 박스가 창을 거의 다 덮어 남은 칸이 5 % 미만, 중앙값에서 뺌)", "",
+    L += ["", "**표 2. 데이터셋별 이미지 수(장)와 스펙트럼 점유율 중앙값(%)** (잴 수 없는 이미지 = 드론 경계 상자가 이미지를 거의 다 덮어 나머지 영역이 5 % 미만, 중앙값에서 뺌)", "",
           "| 데이터셋 | 이미지 수 | 잴 수 없는 이미지 수 | 점유율 중앙값 | 드론 있는 이미지 비율 (%) | 와이파이 버스트 수 중앙값 | 블루투스 버스트 수 중앙값 |", "|---|---:|---:|---:|---:|---:|---:|"]
     for name, _ in jobs():
         f = C.DATA / name / "meta.json"

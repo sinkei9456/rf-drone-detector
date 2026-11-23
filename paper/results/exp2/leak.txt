@@ -25,4 +25,4 @@ test2_2 val: IQ 파일 2개, 묶음 ['S_off_after']
   data/raw/hackrf/4_neo2_crowded_20261114/01_수원역_플랫폼/드론_꺼짐/20261114T043313Z_neo2_post_link_off_01_d40adb75/iq.sigmf-data
   data/raw/hackrf/4_neo2_crowded_20261114/01_수원역_플랫폼/드론_꺼짐/20261114T043320Z_neo2_post_link_off_02_97e54722/iq.sigmf-data
 
-Neo 2 를 켠 IQ 파일 없음, train·validation 겹침 없음, 학습 장소 밖 IQ 파일 없음 → EXP2_LEAK_OK
+Neo 2 를 켠 IQ 파일 없음, 학습·검증 데이터 겹침 없음, 학습 장소 밖 IQ 파일 없음 → EXP2_LEAK_OK
