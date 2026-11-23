@@ -173,7 +173,7 @@ For every model and evaluation, the per-image outputs (the highest drone confide
 
 ## Citation
 
-This repository (all versions): Kim, Jeonghwan. RF Drone Detector. Zenodo. https://doi.org/10.5281/zenodo.23656790 (v2.0: https://doi.org/10.5281/zenodo.24345339). A `CITATION.cff` file is included. The paper is in preparation.
+This repository (all versions): Kim, Jeonghwan. RF Drone Detector. Zenodo. https://doi.org/10.5281/zenodo.23656790 (this release v2.1, the code of the paper: https://doi.org/10.5281/zenodo.24471317; v2.0: https://doi.org/10.5281/zenodo.24345339). A `CITATION.cff` file is included. The paper is in preparation.
 
 ## License
 

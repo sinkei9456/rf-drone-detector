@@ -175,7 +175,7 @@ boxes = model.predict("image.png", conf=0.06, verbose=False)[0].boxes
 
 ## 인용
 
-이 저장소(모든 버전): Kim, Jeonghwan. RF Drone Detector. Zenodo. https://doi.org/10.5281/zenodo.23656790. v2.0 버전의 DOI는 https://doi.org/10.5281/zenodo.24345339입니다. `CITATION.cff` 파일도 들어 있습니다. 논문은 작성 중입니다.
+이 저장소(모든 버전): Kim, Jeonghwan. RF Drone Detector. Zenodo. https://doi.org/10.5281/zenodo.23656790. 논문 실험 코드인 v2.1 버전의 DOI는 https://doi.org/10.5281/zenodo.24471317이고, v2.0 버전의 DOI는 https://doi.org/10.5281/zenodo.24345339입니다. `CITATION.cff` 파일도 들어 있습니다. 논문은 작성 중입니다.
 
 ## 라이선스
 
