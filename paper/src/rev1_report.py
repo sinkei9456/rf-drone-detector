@@ -88,10 +88,10 @@ def main(seed=None):
         L += table(f"**표 2-{4 + 2 * i}. {fn} fold 를 뺀 모델의 Neo 2 합성 평가 재현율, 긴 버스트 (단위: %)**", Rf, g2("long"), TEST)
     J["test2_fold"] = {fk: {tc: {c: {s: agg([r for r in R if r["fold"] == fk], tc, lambda r, c=c, s=s: r["t2"]["recall"][c][s] if r["t2"] else None) for s in ("short", "long")} for c, _ in TEST} for tc, _ in TRAIN} for fk, _ in FOLDS}
 
-    L += ["## 3. 저간섭 실측 평가", "", "2026-10-08 공원과 실내에서 HackRF One(수신 필터 20 MHz)으로 취득한 Neo 2 실측 IQ 데이터. 드론 채널 밖 스펙트럼 점유율 0.1–0.9 %. 세션 목록은 보충 자료 표 S12.", ""]
+    L += ["## 3. 저간섭 실측 평가", "", "2026-10-08 공원과 실내에서 HackRF One(수신 필터 20 MHz)으로 취득한 Neo 2 실측 IQ 데이터. 드론 채널 밖 스펙트럼 점유율은 대부분 0.1–0.9 %이고, Neo 2 신호가 채널 밖까지 나타난 공원 세션 01·13과 실내 Neo 2 전원 켜짐 데이터는 2.4–4.1 %. 세션 목록은 보충 자료 표 S12.", ""]
     gb = lambda r, s: r["res"]["baseline_recall"][s]["all"] if s in r["res"]["baseline_recall"] else None
     L += table("**표 3-1. 저간섭 실측 평가의 재현율, 세션별 (단위: %, 열 이름의 괄호는 공원 세션 번호)**", R, gb, REC)
-    L += table("**표 3-2. 저간섭 실측 평가의 재현율, 고도 약 50 m 세션 (참고, 신호가 이미지에서 거의 안 보임, 단위: %)**", R, gb, REF)
+    L += table("**표 3-2. 저간섭 실측 평가의 재현율, 드론이 약 50 m 떨어진 세션 (참고, 신호가 이미지에서 거의 안 보임, 단위: %)**", R, gb, REF)
     gf = lambda r, s: r["res"]["baseline_fpr"][s]["fpr"] if s in r["res"]["baseline_fpr"] else None
     L += table("**표 3-3. 저간섭 실측 평가의 FPR, 세션별 (단위: %)**", R, gf, FPR)
     J["baseline_recall"] = {tc: {s: agg(R, tc, lambda r, s=s: gb(r, s)) for s, _ in REC + REF} for tc, _ in TRAIN}

@@ -46,7 +46,7 @@ materials() {
   step 02_drff_scan      drff_scan                                        # DRFF-R2: drone band and on-time per file
   step 03_pieces_v3      $PY src/synth_iq_build.py pieces --ver v3        # drone signal segments (train/test) from DRFF-R2, Tampere, DroneDetect, RFUAV
   step 04_pieces_v7      $PY src/synth_iq_build.py pieces_val --ver v7    # + validation segments -> runs/iq_pieces_v7.npy (303 segments, 20 models)
-  step 05_neo2_pictures  pictures data/raw/hackrf/3_neo2_park/[0-9][0-9]_* data/raw/hackrf/2_neo2_indoor/20261008_drone_*
+  step 05_neo2_pictures  pictures data/raw/hackrf/3_neo2_park/0[1-9]_* data/raw/hackrf/3_neo2_park/1[0-3]_* data/raw/hackrf/2_neo2_indoor/20261008_drone_*
   step 06_neo2_autolabel $PY src/neo2_autolabel.py --write                # rule-based Neo 2 boxes (labels of the low-interference real test)
   step 07_neo2_pieces    $PY src/neo2_pieces.py                           # park background with short bursts removed, Neo 2 segments
 }

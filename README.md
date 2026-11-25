@@ -78,6 +78,7 @@ paper/src/              experiments of the paper
   rev1_exp2.py            real-background models: images, leakage check, evaluation, tables
   rev1_gt_vis.py          images with the ground-truth drone boxes drawn, for checking labels
   occupancy.py            spectrum occupancy
+  noise_level.py          noise level of the backgrounds
   neo2_burst_sessions.py  Neo 2 burst length and period
   fig_rev1.py, fig_rev2.py, fig_exp2_curves.py   figures (Korean labels)
 paper/results/          result tables and leakage checks
@@ -157,6 +158,24 @@ All 44 models of the paper (40 generated-interference models, 4 real-background 
 | Crowded-site real test | 15,163 | 44 |
 
 For every model and evaluation, the per-image outputs (the highest drone confidence of each image, and the highest confidence of a box on the drone) and the threshold chosen on the validation images were identical to those of the paper: 256 items, 0 differences. The low-interference real test now has 6,366 images, because the 250 images of the indoor drone-off recording made with the 15 MHz receive filter were removed; the other images were compared one by one. The leakage checks passed, and the crowded-site IQ file list, the spectrum occupancy of each crowded-site image and the Neo 2 burst positions were identical. The run took 2 h 37 min on one DGX Spark.
+
+### Rerun from the raw data (2026-11-25)
+
+A fresh clone of main was run again from the raw IQ data with `scripts/reproduce_paper.sh`, on the same DGX Spark and in the same environment. Only `data/raw/` and the COCO weights `src/yolo26s.pt` were linked. Every segment, image, label and model was made in the clone.
+
+- Datasets were identical to those of the paper: the training and validation image lists of the 40 generated-interference models and the 4 real-background models (6,000 training and 600 validation images per model), the synthesis summary, the leakage checks, the Neo 2 synthetic test, the crowded-site images (Suwon Station 2,516, train car 12,647), the crowded-site IQ file list and the noise levels. Sampled images were byte-identical.
+- 9 of the 40 generated-interference models were trained again from the COCO weights (`f1_mini_*_s1`, `f2_air_*_s1`, `f3_mavic_c02_s1`). Their validation thresholds and per-image outputs were identical to those of the paper, although the weight files were not byte-identical. The other models were not trained again.
+- The run first stopped at step 05: the folder pattern of the park sessions also picked a documentation folder that has no IQ files. The pattern now selects sessions 01–13 only.
+
+### Why your numbers may differ
+
+The datasets are made on the CPU with fixed seeds and do not depend on the GPU. Training and inference run on the GPU. With another GPU, driver, CUDA, PyTorch or Ultralytics version, the order of floating-point operations can change, so the weights, confidences and thresholds can differ slightly even with the same seed. On the machine of the paper (one DGX Spark, `requirements-lock.txt`) the rerun gave identical outputs. Inference times depend on the hardware and on other jobs running at the same time.
+
+## Changes after v2.1
+
+- `scripts/reproduce_paper.sh`: step 05 selects park sessions 01–13 only.
+- `paper/results/RESULTS.md` and `paper/src/rev1_report.py`: the spectrum occupancy of the low-interference data is mostly 0.1–0.9 % and 2.4–4.1 % in park sessions 01 and 13 and the indoor drone-on data. Table 3-2 names the sessions by the drone distance (about 50 m) instead of the altitude.
+- `paper/src/noise_level.py` and `paper/results/exp2/noise_level.json`: noise levels of the park, train-car and station backgrounds (Section 4.3). The comment in `rev1_exp2.py` gives these values.
 
 ## Changes from v2.0
 
